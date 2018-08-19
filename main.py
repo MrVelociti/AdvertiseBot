@@ -60,7 +60,6 @@ help_msg4 = "```diff"
 help_msg4 += "\n- COMMANDS ONLY FOR BOT STAFF(ADMINISTRATORS) -"
 help_msg4 += "\n*mod <add/del> <user>\n+ Adds or removes a bot moderator."
 help_msg4 += "\n*announce <text>\n+ Sends an announcement to all servers."
-help_msg4 += "\n*force\n+ Forces the bot to advertise."
 help_msg4 += "\n*log <message>\n+ Logs a message."
 help_msg4 += "\n*special <add/del> <server id>\n+ Adds or removes a server from the special list."
 help_msg4 += "\n*say <text>\n+ Forces the bot to say something."
@@ -136,7 +135,7 @@ support_chnl = '450888964799201291'
 warns_chnl = '480713857321664522'
 mass_ban_chnl = '480783411301187584'
 as_chnl = '480783516389343232'
-limit = 1000000000000000
+limit = 0
 
 servers_links = []
 
