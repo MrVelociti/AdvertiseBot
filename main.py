@@ -239,7 +239,7 @@ async def on_ready():
         print("[START UP][BOT ADMINISTRATORS] ADDED {}".format(message.content))
     msg += "\n+ Bot administrator count: {}".format(len(bot_admins))
     t1 = time.perf_counter()
-    #await client.send_typing()
+    await client.send_typing(c, msg)
     t2 = time.perf_counter()
     msg += "\n+ Ping: {} ms".format(round((t2-t1)*1000))
     msg += "\n```"
