@@ -243,7 +243,7 @@ async def on_ready():
     t2 = time.perf_counter()
     msg += "\n+ Ping: {} ms".format(round((t2-t1)*1000))
     msg += "\n```"
-    await client.send_message(c, msg)
+    await client.send_message(c)
     await client.wait_until_ready()
     await client.change_presence(game=discord.Game(name=start_status))
     print("==========")
