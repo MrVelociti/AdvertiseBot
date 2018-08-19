@@ -83,7 +83,7 @@ tos_msg += "\n<:arrowemoji:473457682049662977> Do not use the support system or 
 tos_msg += "\n<:arrowemoji:473457682049662977> Only use the support system if you need help with the bot or have a question about it."
 tos_msg += "\n<:arrowemoji:473457682049662977> Only suggest things that can actually improve the bot."
 tos_msg += "\n<:arrowemoji:473457682049662977> Do not false report users, servers or bugs."
-tos_msg += "\n<:arrowemoji:473457682049662977> Adide by Discord's Terms and Guildelines.
+tos_msg += "\n<:arrowemoji:473457682049662977> Adide by Discord's Terms and Guildelines."
 tos_msg += "\n<:arrowemoji:473457682049662977> Do not take advantage of bugs. Please report them instead."
 tos_msg += "\n<:arrowemoji:473457682049662977> Breaking any of these rules will get you and/or your server banned."
 
