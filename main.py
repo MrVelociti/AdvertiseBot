@@ -17,7 +17,7 @@ footer_text = "Get Advertiser Bot: https://discord.gg/UBh9FpK"
 version = '1.1'
 
 help_msg1 = "```diff"
-help_msg1 += "\n- COMMANDS FOR EVERYONE -"
+help_msg1 += "\n- GENERAL COMMANDS -"
 help_msg1 += "\n*help\n+ Gives you a list of commands."
 help_msg1 += "\n*ping\n+ Pings the bot. Used to check if the bot is lagging."
 help_msg1 += "\n*support <message>\n+ Sends a message to the bot's staff. Use this if you need any help or have questions."
@@ -34,7 +34,7 @@ help_msg1 += "\n*m [user]\n+ Checks if someone is a bot moderator, bot administr
 help_msg1 += "\n```"
 
 help_msg2 = "```diff"
-help_msg2 += "\n- COMMANDS FOR SERVER MANAGERS -"
+help_msg2 += "\n- COMMANDS ONLY FOR GUILD OWNERS OR GUILD ADMINS -"
 help_msg2 += "\n*setup [log channel] [channel] [message]\n+ Shows you help on how to setup your server or starts the setup if you add the arguments."
 help_msg2 += "\n*unsetup\n+ Removes your server from all lists and deletes all data required to advertise your server."
 help_msg2 += "\n*test\n+ Checks if your server is setup correctly."
@@ -44,7 +44,7 @@ help_msg2 += "\n*tas\n+ Toggles auto-scan on or off for your server."
 help_msg2 += "\n```"
 
 help_msg3 = "```diff"
-help_msg3 += "\n- COMMANDS FOR BOT MODERATORS -"
+help_msg3 += "\n- COMMANDS ONLY FOR BOT STAFF(MODERATORS) -"
 help_msg3 += "\n*msg <user/server> <id> <message>\n+ DMs an user or the owner of the specified server."
 help_msg3 += "\n*ban <user/server> <id> <reason>\n+ Bans an user from all servers or prevents a server from using the bot."
 help_msg3 += "\n*unban <user/server> <id>\n+ Unbans an user from all servers or gives access to a server that was banned."
@@ -57,7 +57,7 @@ help_msg3 += "\n*clear <user/server> <id> <warn number>\n+ Clears a warning for 
 help_msg3 += "\n```"
 
 help_msg4 = "```diff"
-help_msg4 += "\n- COMMANDS FOR BOT ADMINISTRATORS -"
+help_msg4 += "\n- COMMANDS ONLY FOR BOT STAFF(ADMINISTRATORS) -"
 help_msg4 += "\n*mod <add/del> <user>\n+ Adds or removes a bot moderator."
 help_msg4 += "\n*announce <text>\n+ Sends an announcement to all servers."
 help_msg4 += "\n*force\n+ Forces the bot to advertise."
@@ -69,11 +69,11 @@ help_msg4 += "\n*mb <run/clear>\n+ Either runs the multiple/mass banning system 
 help_msg4 += "\n```"
 
 tos_msg = "***__By using this bot you agree to the following:__***"
-tos_msg += "\n<:arrowemoji:473457682049662977> Letting the bot ban and unban users that are on the ban list. If you want to disable this use `ad!tas`."
-tos_msg += "\n<:arrowemoji:473457682049662977> Letting the bot create invite links for your server."
-tos_msg += "\n<:arrowemoji:473457682049662977> Letting the bot send advertisements for other discord servers on your server and sending your server links to other servers."
+tos_msg += "\n<:arrowemoji:473457682049662977> Allowing AdvertiseBot to ban and unban users that are on the ban list. If you want to disable this use `ad!tas`."
+tos_msg += "\n<:arrowemoji:473457682049662977> Allowing AdvertiseBot to create invite links for your server."
+tos_msg += "\n<:arrowemoji:473457682049662977> Allowing AdvertiseBot to send advertisements for other discord servers on your server and sending your server links to other servers."
 tos_msg += "\n<:arrowemoji:473457682049662977> Giving the required permissions to the bot."
-tos_msg += "\n<:arrowemoji:473457682049662977> Letting the bot get your server information such as members, server ID, channel count, owner ID etc."
+tos_msg += "\n<:arrowemoji:473457682049662977> Allowing AdvertiseBot to get your server information such as members, server ID, channel count, owner ID etc."
 tos_msg += "\n "
 tos_msg += "\n***__Bot's rules:__***"
 tos_msg += "\n<:arrowemoji:473457682049662977> Everyone must be able to see the channel that the bot sends ADs to in your server."
@@ -83,7 +83,7 @@ tos_msg += "\n<:arrowemoji:473457682049662977> Do not use the support system or 
 tos_msg += "\n<:arrowemoji:473457682049662977> Only use the support system if you need help with the bot or have a question about it."
 tos_msg += "\n<:arrowemoji:473457682049662977> Only suggest things that can actually improve the bot."
 tos_msg += "\n<:arrowemoji:473457682049662977> Do not false report users, servers or bugs."
-tos_msg += "\n<:arrowemoji:473457682049662977> The bot's code is open source. You are not allowed to copy it and make your own bot out of it. You can copy some parts if you are creating your own bot, but not full commands, functions etc."
+tos_msg += "\n<:arrowemoji:473457682049662977> Adide by Discord's Terms and Guildelines.
 tos_msg += "\n<:arrowemoji:473457682049662977> Do not take advantage of bugs. Please report them instead."
 tos_msg += "\n<:arrowemoji:473457682049662977> Breaking any of these rules will get you and/or your server banned."
 
@@ -93,7 +93,6 @@ tos_msg2 += "\n    - Raid servers."
 tos_msg2 += "\n    - Spam servers."
 tos_msg2 += "\n    - Nuke servers."
 tos_msg2 += "\n    - Sending viruses or any kind of malicious files."
-tos_msg2 += "\n    - Copying the bot's code."
 tos_msg2 += "\n    - Making drama about the bot. We rather talk about it and find a solution to whatever it is."
 tos_msg2 += "\n    - And similar acts."
 tos_msg2 += "\n<:arrowemoji:473457682049662977> Being disrespectful, toxic, sending NSFW content and similar acts will not get you banned."
@@ -105,38 +104,38 @@ announcement_img = "https://i.imgur.com/4vxwaYD.png"
 new_server_img = "https://i.imgur.com/kA6ZEOQ.png"
 special_server_img = "https://i.imgur.com/ZFU25Iy.png"
 reminder_img = "https://i.imgur.com/qKDSpFL.png"
-random_servers_chnl = '450625326943436800'
-console_chnl = '450625267413680148'
-logs_chnl = '450625284664983562'
-reports_users_chnl = '450625846047145986'
-reports_servers_chnl = '450625596943499264'
-reports_bugs_chnl = '450625543495221248'
-suggestions_chnl = '450625186245378058'
-banned_users_chnl = '450625846047145986'
-banned_servers_chnl = '450625869233258497'
-bot_mods_chnl = '450626647021060097'
-bot_admins_chnl = '450626670852833280'
-toggled_servers_chnl = '450627295108136971'
-special_servers_chnl = '450627929345622016'
-normal_servers_chnl = '450648126471143424'
-channels_chnl = '450648284264923146'
-log_channels_chnl = '451405759020793856'
-normal_servers_msgs_chnl = '450648203612913664'
-special_servers_msgs_chnl = '450648244138278933'
-servers_links_chnl = '450960502831710208'
-support_server = '440108166789988353'
-community_server = 'https://discord.gg/UBh9FpK'
+random_servers_chnl = '480714517462908928'
+console_chnl = ''
+logs_chnl = ''
+reports_users_chnl = ''
+reports_servers_chnl = ''
+reports_bugs_chnl = ''
+suggestions_chnl = ''
+banned_users_chnl = ''
+banned_servers_chnl = ''
+bot_mods_chnl = ''
+bot_admins_chnl = ''
+toggled_servers_chnl = ''
+special_servers_chnl = ''
+normal_servers_chnl = ''
+channels_chnl = ''
+log_channels_chnl = ''
+normal_servers_msgs_chnl = ''
+special_servers_msgs_chnl = ''
+servers_links_chnl = ''
+support_server = '444814911823020032'
+community_server = 'https://discord.gg/4eMsYmx'
 error_img = '<:erroremoji:451339882669801482>'
 x_img = '<:xmark:314349398824058880>'
 check_img = '<:check:314349398811475968>'
-owner_id = '412201413335056386'
+owner_id = '402316460325601292'
 start_status = '- *help | *support'
 loading_status = '- Loading...'
 updating_status = '- Updating...'
-support_chnl = '453133652029865995'
-warns_chnl = '474114441689038848'
-mass_ban_chnl = '474138613165326336'
-as_chnl = '474322276851122186'
+support_chnl = '450888964799201291'
+warns_chnl = ''
+mass_ban_chnl = ''
+as_chnl = ''
 limit = 1000000000000000
 
 servers_links = []
@@ -418,8 +417,8 @@ async def uptime_system():
 
 client.loop.create_task(uptime_system())
 
-''' COMMANDS FOR EVERYONE '''
-# ad!help
+''' GENERAL COMMANDS '''
+# *help
 client.remove_command('help')
 @client.command(pass_context=True)
 async def help(ctx):
@@ -433,7 +432,7 @@ async def help(ctx):
     except:
         await client.say("<:erroremoji:451339882669801482> Make sure the bot has permissions to send you DMs!")
 
-# ad!ping
+# *ping
 @client.command(pass_context=True)
 async def ping(ctx):
     if ctx.message.server.id in banned_servers:
@@ -455,7 +454,7 @@ async def ping(ctx):
             msg += "\nThe bot isn't lagging! <:online:313956277808005120>"
         await client.say(msg)
 
-# ad!support <message>
+# *support <message>
 @client.command(pass_context=True)
 async def support(ctx, *, args = None):
     author = ctx.message.author
@@ -488,7 +487,7 @@ async def support(ctx, *, args = None):
                 except:
                     await client.say("{} Make sure the bot can send you DMs!".format(error_img))
 
-# ad!info
+# *info
 @client.command(pass_context=True)
 async def info(ctx):
     if ctx.message.server.id in banned_servers:
@@ -519,7 +518,7 @@ async def info(ctx):
         msg += "\n+ Community server link:\n```\n{}".format(community_server)
         await client.say(msg)
 
-# ad!rnd
+# *rnd
 @client.command(pass_context=True)
 async def rnd(ctx):
     if ctx.message.server.id in banned_servers:
@@ -529,7 +528,7 @@ async def rnd(ctx):
     else:
         await client.say("**Random server:**\n{}".format(random.choice(servers_links)))
 
-# ad!serverinfo [server id]
+# *serverinfo [server id]
 @client.command(pass_context=True)
 async def serverinfo(ctx, target = None):
     if ctx.message.server.id in banned_servers:
@@ -611,7 +610,7 @@ async def serverinfo(ctx, target = None):
                 except:
                     await client.say("<:erroremoji:451339882669801482> An unknown error occured while trying to collect the information for that server.")
 
-# ad!invite
+# *invite
 @client.command(pass_context=True)
 async def invite(ctx):
     if ctx.message.server.id in banned_servers:
@@ -621,13 +620,13 @@ async def invite(ctx):
     else:
         await client.say("Here is the link to invite the bot:\n \nhttps://discordapp.com/oauth2/authorize?client_id=439051827384680449&scope=bot&permissions=537259127")
 
-# ad!tos
+# *tos
 @client.command(pass_context=True)
 async def tos(ctx):
     await client.say(tos_msg)
     await client.say(tos_msg2)
 
-# ad!suggest <suggestion>
+# *suggest <suggestion>
 @client.command(pass_context=True)
 async def suggest(ctx, *, args = None):
     if ctx.message.server.id in banned_servers:
@@ -658,7 +657,7 @@ async def suggest(ctx, *, args = None):
                 except:
                     await client.say("{} Error in sending suggestion.".format(error_img))
 
-# ad!uptime
+# *uptime
 @client.command(pass_context=True)
 async def uptime(ctx):
     if ctx.message.server.id in banned_servers:
@@ -683,7 +682,7 @@ async def uptime(ctx):
         msg += "\n```"
         await client.say(msg)
 
-# ad!report <user/server> <id> <reason>
+# *report <user/server> <id> <reason>
 @client.command(pass_context=True)
 async def report(ctx, option = None, target = None, *, reason = None):
     if ctx.message.server.id in banned_servers:
@@ -746,7 +745,7 @@ async def report(ctx, option = None, target = None, *, reason = None):
             else:
                 await client.say("{} Command was used wrongly.\n`ad!report user <id> <reason>`.\n`ad!report server <id> <reason>`.".format(error_img))
 
-# ad!bug <message>
+# *bug <message>
 @client.command(pass_context=True)
 async def bug(ctx, *, args = None):
     if ctx.message.server.id in banned_servers:
@@ -792,7 +791,7 @@ async def m(ctx, user: discord.User = None):
     else:
         await client.say("{} <@{}> is not a bot administrator nor a bot moderator.".format(x_img, author.id))
 
-''' COMMANDS FOR SERVER MANAGERS '''
+''' COMMANDS ONLY FOR GUILD OWNER OR ADMIN '''
 # *tas
 @client.command(pass_context=True)
 async def tas(ctx):
@@ -834,7 +833,7 @@ async def setup(ctx, log_channel: discord.Channel = None, channel: discord.Chann
                 a += "\n"
                 a += "\n+ Make sure the bot has the following permissions: Manage Server, Manage Channels, Kick Members, Ban Members, Create Instant Invite, Manage Webhooks, Read Messages, Send Messages, Manage Messages, Embed Links, Attach Files, Read Message History, Add Reactions, Use External Emojis."
                 a += "\n "
-                a += "\n+ The bot should already have these permissions if you use the official invite link (ad!invite)."
+                a += "\n+ The bot should already have these permissions if you use the official invite link (*invite)."
                 a += "\n "
                 a += "\n+ Create 2 channels for the bot. One where the bot will send advertisements and another one where the bot logs stuff. You can also use already existing channels, but its recommended to create a separate channel for the bot to log stuff in."
                 a += "\n "
@@ -852,11 +851,11 @@ async def setup(ctx, log_channel: discord.Channel = None, channel: discord.Chann
                 a += "\n "
                 a += "\n+ Remember the read the bot's rules and TOS (ad!tos)."
                 a += "\n "
-                a += "\n+ If you have any issues with the bot just use the ad!support command."
+                a += "\n+ If you have any issues with the bot just use the *support command."
                 a += "\n```"
                 await client.say(a)
             elif server.id in normal_servers or server.id in special_servers:
-                await client.say("{} This server is already being advertised.\nYou can use `ad!unsetup` to un-set it up.".format(error_img))
+                await client.say("{} This server is already being advertised.\nYou can use `*unsetup` to un-set it up.".format(error_img))
             else:
                 if len(str(message)) > 500:
                     await client.say("{} The message cannot be longer than 500 characters.".format(error_img))
@@ -967,7 +966,7 @@ async def setup(ctx, log_channel: discord.Channel = None, channel: discord.Chann
                             log += "\n--- CLOSING SETUP LOGGER ---"
                             log += "\n```"
                             await client.send_message(log_chnl, log)
-                            await client.say("{} Everything should be working now and your server should be advertised.\nYou can use `ad!test` to check if everything is working and you can use `ad!bump` to force the bot to advertise your server.\nThe setup log has been sent to <#{}>.\nIf you have any questions or need any help, just use `ad!support`.\nThank you for using this bot! :grinning: ".format(check_img, log_chnl_id))
+                            await client.say("{} Everything should be working now and your server should be advertised.\nYou can use `*test` to check if everything is working.\nThe setup log has been sent to <#{}>.\nIf you have any questions or need any help, just use `*support`.\nThank you for using this bot! :grinning: ".format(check_img, log_chnl_id))
                         except:
                             log += "\n- ^ Error!"
                             log += "\n--- CLOSING SETUP LOGGER ---"
@@ -981,7 +980,7 @@ async def setup(ctx, log_channel: discord.Channel = None, channel: discord.Chann
         else:
             await client.say("{} This command can only be used by users with the `Manage Server` permissions and can be bypassed by the bot's staff.".format(error_img))
 
-# ad!unsetup
+# *unsetup
 @client.command(pass_context=True)
 async def unsetup(ctx):
     author = ctx.message.author
