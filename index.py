@@ -1,6 +1,3 @@
-# I ADDED NOTES AT FEW POINTS IN THE CODE TO EXPLAIN SOME STUFF
-# YOU CAN SEARCH FOR "<--------------" TO FIND THOSE NOTES
-
 print("Starting AdvertiseBot...")
 import discord
 from discord.ext.commands import Bot
@@ -70,46 +67,45 @@ help_msg4 += "\n*ms run\n+ Runs the mass scan."
 help_msg4 += "\n*mb <run/clear>\n+ Either runs the multiple/mass banning system or clears the list."
 help_msg4 += "\n```"
 
-tos_msg = "***__By using this bot you agree to the following:__***" # <:arrowemoji:473457682049662977> CHANGE THAT EMOJI TOO <--------------
-tos_msg += "\n<:arrowemoji:473457682049662977> Allowing AdvertiseBot to ban and unban users that are on the ban list. If you want to disable this use `ad!tas`."
-tos_msg += "\n<:arrowemoji:473457682049662977> Allowing AdvertiseBot to create invite links for your server."
-tos_msg += "\n<:arrowemoji:473457682049662977> Allowing AdvertiseBot to send advertisements for other discord servers on your server and sending your server links to other servers."
-tos_msg += "\n<:arrowemoji:473457682049662977> Giving the required permissions to the bot."
-tos_msg += "\n<:arrowemoji:473457682049662977> Allowing AdvertiseBot to get your server information such as members, server ID, channel count, owner ID etc."
+tos_msg = "***__By using this bot you agree to the following:__***"
+tos_msg += "\n:arrow_right: Allowing AdvertiseBot to ban and unban users that are on the ban list. If you want to disable this use `ad!tas`."
+tos_msg += "\n:arrow_right: Allowing AdvertiseBot to create invite links for your server."
+tos_msg += "\n:arrow_right: Allowing AdvertiseBot to send advertisements for other discord servers on your server and sending your server links to other servers."
+tos_msg += "\n:arrow_right: Giving the required permissions to the bot."
+tos_msg += "\n:arrow_right: Allowing AdvertiseBot to get your server information such as members, server ID, channel count, owner ID etc."
 tos_msg += "\n "
 tos_msg += "\n***__Bot's rules:__***"
-tos_msg += "\n<:arrowemoji:473457682049662977> Everyone must be able to see the channel that the bot sends ADs to in your server."
-tos_msg += "\n<:arrowemoji:473457682049662977> Spamming bot commands or trying to make the bot lag will get you instantly banned."
-tos_msg += "\n<:arrowemoji:473457682049662977> Continuous asking to become a bot moderator/administrator is not allowed."
-tos_msg += "\n<:arrowemoji:473457682049662977> Do not use the support system or any other system just to mess around."
-tos_msg += "\n<:arrowemoji:473457682049662977> Only use the support system if you need help with the bot or have a question about it."
-tos_msg += "\n<:arrowemoji:473457682049662977> Only suggest things that can actually improve the bot."
-tos_msg += "\n<:arrowemoji:473457682049662977> Do not false report users, servers or bugs."
-tos_msg += "\n<:arrowemoji:473457682049662977> Adide by Discord's Terms and Guildelines."
-tos_msg += "\n<:arrowemoji:473457682049662977> Do not take advantage of bugs. Please report them instead."
-tos_msg += "\n<:arrowemoji:473457682049662977> Breaking any of these rules will get you and/or your server banned."
+tos_msg += "\n:arrow_right: Everyone must be able to see the channel that the bot sends ADs to in your server."
+tos_msg += "\n:arrow_right: Spamming bot commands or trying to make the bot lag will get you instantly banned."
+tos_msg += "\n:arrow_right: Continuous asking to become a bot moderator/administrator is not allowed."
+tos_msg += "\n:arrow_right: Do not use the support system or any other system just to mess around."
+tos_msg += "\n:arrow_right: Only use the support system if you need help with the bot or have a question about it."
+tos_msg += "\n:arrow_right: Only suggest things that can actually improve the bot."
+tos_msg += "\n:arrow_right: Do not false report users, servers or bugs."
+tos_msg += "\n:arrow_right: Adide by Discord's Terms and Guildelines."
+tos_msg += "\n:arrow_right: Do not take advantage of bugs. Please report them instead."
+tos_msg += "\n:arrow_right: Breaking any of these rules will get you and/or your server banned."
 
 tos_msg2 = "***__Other information:__***"
-tos_msg2 += "\n<:arrowemoji:473457682049662977> Users who do any of the following will be banned:"
+tos_msg2 += "\n:arrow_right: Users who do any of the following will be banned:"
 tos_msg2 += "\n    - Raid servers."
 tos_msg2 += "\n    - Spam servers."
 tos_msg2 += "\n    - Nuke servers."
 tos_msg2 += "\n    - Sending viruses or any kind of malicious files."
 tos_msg2 += "\n    - Making drama about the bot. We rather talk about it and find a solution to whatever it is."
 tos_msg2 += "\n    - And similar acts."
-tos_msg2 += "\n<:arrowemoji:473457682049662977> Being disrespectful, toxic, sending NSFW content and similar acts will not get you banned."
-tos_msg2 += "\n<:arrowemoji:473457682049662977> The bot has a feature that you can enable and disable for your server called 'auto-scan'. Use `ad!tas` to toggle it on and off. If you have this feature enabled on your server, the bot will automatically ban users on the ban list from your server."
-tos_msg2 += "\n<:arrowemoji:473457682049662977> Do not give staff or any kind of moderation permission to people claiming that they are staff unless they can prove that they are actually one of the bot's staff members. Ask them to use `ad!m` that way you can tell who's an actual staff and who's fake."
+tos_msg2 += "\n:arrow_right: Being disrespectful, toxic, sending NSFW content and similar acts will not get you banned."
+tos_msg2 += "\n:arrow_right: The bot has a feature that you can enable and disable for your server called 'auto-scan'. Use `ad!tas` to toggle it on and off. If you have this feature enabled on your server, the bot will automatically ban users on the ban list from your server."
+tos_msg2 += "\n:arrow_right: Do not give staff or any kind of moderation permission to people claiming that they are staff unless they can prove that they are actually one of the bot's staff members. Ask them to use `ad!m` that way you can tell who's an actual staff and who's fake."
 
-test_msg_img = "https://i.imgur.com/Cln6BAr.png" # CHANGE LINK <--------------
-announcement_img = "https://i.imgur.com/4vxwaYD.png" # CHANGE LINK <--------------
-new_server_img = "https://i.imgur.com/kA6ZEOQ.png" # CHANGE LINK <--------------
-special_server_img = "https://i.imgur.com/ZFU25Iy.png" # CHANGE LINK <--------------
-reminder_img = "https://i.imgur.com/qKDSpFL.png" # CHANGE LINK <--------------
-error_img = '<:erroremoji:451339882669801482>' # CHANGE EMOJI <--------------
-x_img = '<:xmark:314349398824058880>' # CHANGE EMOJI <--------------
-check_img = '<:check:314349398811475968>' # CHANGE EMOJI <--------------
-# SOME COMMANDS MIGHT USE OTHER EMOJIS THAT YOU'LL HAVE TO CHANGE <--------------
+test_msg_img = "https://i.imgur.com/Cln6BAr.png" # CHANGE LINK
+announcement_img = "https://i.imgur.com/4vxwaYD.png" # CHANGE LINK
+new_server_img = "https://i.imgur.com/kA6ZEOQ.png" # CHANGE LINK
+special_server_img = "https://i.imgur.com/ZFU25Iy.png" # CHANGE LINK
+reminder_img = "https://i.imgur.com/qKDSpFL.png" # CHANGE LINK
+error_img = ':warning:'
+x_img = ':x:'
+check_img = ':white_check_mark:'
 
 random_servers_chnl = '526399947470536714'
 console_chnl = '526399976830402561'
@@ -132,8 +128,8 @@ special_servers_msgs_chnl = '526400733034053632'
 servers_links_chnl = '526400753397661732'
 support_chnl = '526403110176817153'
 warns_chnl = '526403417896386570'
-mass_ban_chnl = '526403476935278638' # DELETE THIS LINE IF YOU DONT PLAN TO USE THE MASS BAN COMMAND (ITS USED TO ADD MULTIPLE USERS TO THE BOT'S BANNED USERS LIST AT ONCE)
-as_chnl = '526403572246773771' # DELETE THIS LINE IF YOU DONT WANT TO USE THE AUTO SCAN SYSTEM  <--------------
+mass_ban_chnl = '526403476935278638'
+as_chnl = '526403572246773771'
 
 support_server = '518104993841283072'
 community_server = 'https://discord.gg/4eMsYmx'
@@ -141,7 +137,7 @@ owner_id = '402316460325601292'
 start_status = '- *help | *support'
 loading_status = '- Loading...'
 updating_status = '- Updating...'
-limit = 10000000000000 # KEEP THIS LIKE IT IS <--------------
+limit = 10000000000000
 
 servers_links = []
 
@@ -159,7 +155,7 @@ banned_servers = []
 toggled_servers = []
 bumped_servers = []
 bumping = []
-ass = [] # DELETE THIS LINE IF YOU DONT WANT TO USE THE AUTO SCAN SYSTEM  <--------------
+ass = []
 
 bot_mods = ['402316460325601292']
 bot_admins = ['402316460325601292']
@@ -308,7 +304,6 @@ async def on_member_join(user: discord.Member):
                 print("[AS] User not banned")
     except:
         print("[AS] Global error")
-    # DELETE EVERYTHING BELOW "AUTO-SCAN SYSTEM" TO HERE IF YOU DONT USE THE AUTO SCAN SYSTEM <--------------
 
 # AUTO ADVERTISING SYSTEM
 async def autoad():
@@ -436,15 +431,15 @@ async def help(ctx):
         await client.send_message(author, help_msg4)
         await client.say("Check your DMs. :slight_smile: ")
     except:
-        await client.say("<:erroremoji:451339882669801482> Make sure the bot has permissions to send you DMs!")
+        await client.say(":warning: Make sure the bot has permissions to send you DMs!")
 
 # *ping
 @client.command(pass_context=True)
 async def ping(ctx):
     if ctx.message.server.id in banned_servers:
-        await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
+        await client.say(":x: This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
+        await client.say(":x: You are on the ban list and cannot use the bot.")
     else:
         channel = ctx.message.channel
         t1 = time.perf_counter()
@@ -467,9 +462,9 @@ async def support(ctx, *, args = None):
     server = ctx.message.server
     chnl = client.get_channel(support_chnl)
     if ctx.message.server.id in banned_servers:
-        await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
+        await client.say(":x: This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
+        await client.say(":x: You are on the ban list and cannot use the bot.")
     else:
         if args == None:
             await client.say("{} No message given!\nExample: `ad!support I need help with setting up the bot.`.\nThe message cannot be longer than 1000 characters.".format(error_img))
@@ -497,9 +492,9 @@ async def support(ctx, *, args = None):
 @client.command(pass_context=True)
 async def info(ctx):
     if ctx.message.server.id in banned_servers:
-        await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
+        await client.say(":x: This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
+        await client.say(":x: You are on the ban list and cannot use the bot.")
     else:
         big = []
         await client.say("Collecting information... <a:updating:403035325242540032>")
@@ -528,9 +523,9 @@ async def info(ctx):
 @client.command(pass_context=True)
 async def rnd(ctx):
     if ctx.message.server.id in banned_servers:
-        await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
+        await client.say(":x: This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
+        await client.say(":x: You are on the ban list and cannot use the bot.")
     else:
         await client.say("**Random server:**\n{}".format(random.choice(servers_links)))
 
@@ -538,9 +533,9 @@ async def rnd(ctx):
 @client.command(pass_context=True)
 async def serverinfo(ctx, target = None):
     if ctx.message.server.id in banned_servers:
-        await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
+        await client.say(":x: This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
+        await client.say(":x: You are on the ban list and cannot use the bot.")
     else:
         if target == None:
             await client.say("Collecting information... <a:updating:403035325242540032>")
@@ -572,7 +567,7 @@ async def serverinfo(ctx, target = None):
                 msg += "\n```"
                 await client.say(msg)
             except:
-                await client.say("<:erroremoji:451339882669801482> Error in collecting information!\nMake sure the bot has the required permissions.")
+                await client.say(":warning: Error in collecting information!\nMake sure the bot has the required permissions.")
         else:
             found = []
             await client.say("Searching for server...")
@@ -580,7 +575,7 @@ async def serverinfo(ctx, target = None):
                 if server.id == target:
                     found.append("+1")
             if len(found) == 0:
-                await client.say("<:erroremoji:451339882669801482> Server not found!\nEither the bot is not in that server or the server doesn't exist.")
+                await client.say(":warning: Server not found!\nEither the bot is not in that server or the server doesn't exist.")
             else:
                 try:
                     server = client.get_server(target)
@@ -612,17 +607,17 @@ async def serverinfo(ctx, target = None):
                         msg += "\n```"
                         await client.say(msg)
                     except:
-                        await client.say("<:erroremoji:451339882669801482> Error in collecting information!\nThe bot may not have the required permissions in that server.")
+                        await client.say(":warning: Error in collecting information!\nThe bot may not have the required permissions in that server.")
                 except:
-                    await client.say("<:erroremoji:451339882669801482> An unknown error occured while trying to collect the information for that server.")
+                    await client.say(":warning: An unknown error occured while trying to collect the information for that server.")
 
 # *invite
 @client.command(pass_context=True)
 async def invite(ctx):
     if ctx.message.server.id in banned_servers:
-        await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
+        await client.say(":x: This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
+        await client.say(":x: You are on the ban list and cannot use the bot.")
     else:
         await client.say("Here is the link to invite the bot:\n \nhttps://discordapp.com/oauth2/authorize?client_id=439051827384680449&scope=bot&permissions=537259127")
 
@@ -636,9 +631,9 @@ async def tos(ctx):
 @client.command(pass_context=True)
 async def suggest(ctx, *, args = None):
     if ctx.message.server.id in banned_servers:
-        await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
+        await client.say(":x: This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
+        await client.say(":x: You are on the ban list and cannot use the bot.")
     else:
         author = ctx.message.author
         server = ctx.message.server
@@ -659,7 +654,7 @@ async def suggest(ctx, *, args = None):
                     msg += "\n```"
                     msg += "\n{}".format(args)
                     await client.send_message(chnl, msg)
-                    await client.say("<:check:314349398811475968> Suggestion sent!")
+                    await client.say(":white_check_mark: Suggestion sent!")
                 except:
                     await client.say("{} Error in sending suggestion.".format(error_img))
 
@@ -667,9 +662,9 @@ async def suggest(ctx, *, args = None):
 @client.command(pass_context=True)
 async def uptime(ctx):
     if ctx.message.server.id in banned_servers:
-        await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
+        await client.say(":x: This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
+        await client.say(":x: You are on the ban list and cannot use the bot.")
     else:
         nr_hours = 23 - len(ut_hours)
         nr_minutes = 59 - len(ut_minutes)
@@ -692,9 +687,9 @@ async def uptime(ctx):
 @client.command(pass_context=True)
 async def report(ctx, option = None, target = None, *, reason = None):
     if ctx.message.server.id in banned_servers:
-        await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
+        await client.say(":x: This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
+        await client.say(":x: You are on the ban list and cannot use the bot.")
     else:
         author = ctx.message.author
         server = ctx.message.server
@@ -755,9 +750,9 @@ async def report(ctx, option = None, target = None, *, reason = None):
 @client.command(pass_context=True)
 async def bug(ctx, *, args = None):
     if ctx.message.server.id in banned_servers:
-        await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
+        await client.say(":x: This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
+        await client.say(":x: You are on the ban list and cannot use the bot.")
     else:
         if args == None:
             await client.say("{} No message given.\n`ad!bug <message>`.".format(error_img))
@@ -820,15 +815,14 @@ async def tas(ctx):
             await client.say("{} The auto-scan has been toggled off for this server.".format(check_img))
     else:
         await client.say("{} This command can only be used by users with the `Manage Server` permissions and can be bypassed by the bot's staff.".format(error_img))
-    # DELETE THIS COMMAND IF YOU DONT USE THE AUTO SCAN SYSTEM <--------------
 
 # *setup [log channel] [channel] [message]
 @client.command(pass_context=True)
 async def setup(ctx, log_channel: discord.Channel = None, channel: discord.Channel = None, *, message = None):
     if ctx.message.server.id in banned_servers:
-        await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
+        await client.say(":x: This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
+        await client.say(":x: You are on the ban list and cannot use the bot.")
     else:
         author = ctx.message.author
         server = ctx.message.server
@@ -993,9 +987,9 @@ async def unsetup(ctx):
     author = ctx.message.author
     server = ctx.message.server
     if ctx.message.server.id in banned_servers:
-        await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
+        await client.say(":x: This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
+        await client.say(":x: You are on the ban list and cannot use the bot.")
     elif author.server_permissions.manage_server or author.id in bot_mods or author.id in bot_admins:
         if server.id in normal_servers:
             await client.say("Removing data... <a:typing:393848431413559296>")
@@ -1208,9 +1202,9 @@ async def test(ctx):
     author = ctx.message.author
     server = ctx.message.server
     if ctx.message.server.id in banned_servers:
-        await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
+        await client.say(":x: This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
+        await client.say(":x: You are on the ban list and cannot use the bot.")
     elif author.server_permissions.manage_server or author.id in bot_mods or author.id in bot_admins:
         if server.id in normal_servers:
             await client.say("Testing... <a:typing:393848431413559296>")
@@ -1479,9 +1473,9 @@ async def scan(ctx):
     author = ctx.message.author
     server = ctx.message.server
     if ctx.message.server.id in banned_servers:
-        await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
+        await client.say(":x: This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
+        await client.say(":x: You are on the ban list and cannot use the bot.")
     elif author.server_permissions.manage_server or author.id in bot_mods or author.id in bot_admins:
         await client.say("Scanning... <a:typing:393848431413559296>")
         ban = []
@@ -1514,7 +1508,6 @@ async def scan(ctx):
                 print("")
     else:
         await client.say("{} This command can only be used by users with the `Manage Server` permissions and can be bypassed by the bot's staff.".format(error_img))
-    # DELETE THIS COMMAND IF YOU DONT USE THE SCAN SYSTEM  <--------------
 
 # ad!toggle
 @client.command(pass_context=True)
@@ -1523,9 +1516,9 @@ async def toggle(ctx):
     server = ctx.message.server
     chnl = client.get_channel(toggled_servers_chnl)
     if ctx.message.server.id in banned_servers:
-        await client.say("<:xmark:314349398824058880> This server is in the ban list and cannot use the bot.")
+        await client.say(":x: This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await client.say("<:xmark:314349398824058880> You are on the ban list and cannot use the bot.")
+        await client.say(":x: You are on the ban list and cannot use the bot.")
     elif author.server_permissions.manage_server or author.id in bot_mods or author.id in bot_admins:
         await client.say("Toggling... <a:typing:393848431413559296>")
         if server.id in toggled_servers:
@@ -2701,7 +2694,6 @@ async def mb(ctx, option = None, *, args = None):
                 await client.say("{} Invalid option!\nOptions: `run`, `clear`.".format(error_img))
     else:
         await client.say("{} This command can only be used by the bot's administrators.".format(error_img))
-    # DELETE THIS COMMAND IF U DONT USE THE MASS BAN  <--------------
 
 # ad!ms
 mss = []
@@ -2779,7 +2771,6 @@ async def ms(ctx):
             await client.say("{} A mass scan is already running.".format(error_img))
     else:
         await client.say("{} This command can only be used by the bot's administrators.".format(error_img))
-    # DELETE THIS COMMAND IF U DONT USE THE SCAN SYSTEM <--------------
 
 # TURNS THE BOT ON
 client.run(os.environ['BOT_TOKEN'])
