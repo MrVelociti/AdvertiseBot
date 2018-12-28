@@ -13,8 +13,8 @@ import re
 Client = discord.Client()
 bot_prefix= "*"
 client = commands.Bot(command_prefix=bot_prefix)
-footer_text = "Get AdvertiseBot: https://discord.gg/4eMsYmx"
-version = '1.1'
+footer_text = "Join AdvertiseBot Support: https://discord.gg/4eMsYmx"
+version = '1.2'
 
 help_msg1 = "```diff"
 help_msg1 += "\n- GENERAL COMMANDS -"
@@ -68,7 +68,7 @@ help_msg4 += "\n*mb <run/clear>\n+ Either runs the multiple/mass banning system 
 help_msg4 += "\n```"
 
 tos_msg = "***__By using this bot you agree to the following:__***"
-tos_msg += "\n:arrow_right: Allowing AdvertiseBot to ban and unban users that are on the ban list. If you want to disable this use `ad!tas`."
+tos_msg += "\n:arrow_right: Allowing AdvertiseBot to ban and unban users that are on the ban list. If you want to disable this use `*tas`."
 tos_msg += "\n:arrow_right: Allowing AdvertiseBot to create invite links for your server."
 tos_msg += "\n:arrow_right: Allowing AdvertiseBot to send advertisements for other discord servers on your server and sending your server links to other servers."
 tos_msg += "\n:arrow_right: Giving the required permissions to the bot."
@@ -262,7 +262,7 @@ async def on_server_join(server):
     c_chnl = client.get_channel(console_chnl)
     await client.send_message(c_chnl, "```diff\n- JOINED SERVER -\n+ Name: {}\n+ ID: {}\n```".format(server.name, server.id))
     try:
-        await client.send_message(server.owner, "Thank you for adding this bot to your server. Below you can see the TOS and bot rules. For any help you can use: `ad!help` and `ad!support`. :grin: ")
+        await client.send_message(server.owner, "Thank you for adding this bot to your server. Below you can see the TOS and bot rules. For any help you can use: `*help` and `*support`. :grin: ")
         await client.send_message(server.owner, tos_msg)
     except:
         print("")
@@ -278,7 +278,7 @@ async def on_member_join(user: discord.Member):
             if user.id in banned_users:
                 try:
                     await client.http.ban(o, server.id, 0)
-                    await client.send_message(client.get_channel('453192466716164137'), "{} | {} | 0".format(o, server.id))
+                    await client.send_message(client.get_channel('526403572246773771'), "{} | {} | 0".format(o, server.id))
                     chnl = client.get_channel(banned_users_chnl)
                     async for i in client.logs_from(chnl, limit=limit):
                         a = i.content.split(' | ')
@@ -467,7 +467,7 @@ async def support(ctx, *, args = None):
         await client.say(":x: You are on the ban list and cannot use the bot.")
     else:
         if args == None:
-            await client.say("{} No message given!\nExample: `ad!support I need help with setting up the bot.`.\nThe message cannot be longer than 1000 characters.".format(error_img))
+            await client.say("{} No message given!\nExample: `*support I need help with setting up the bot.`.\nThe message cannot be longer than 1000 characters.".format(error_img))
         else:
             if len(str(args)) > 1000:
                 await client.say("{} The message cannot be longer than 1000 characters.".format(error_img))
@@ -694,11 +694,11 @@ async def report(ctx, option = None, target = None, *, reason = None):
         author = ctx.message.author
         server = ctx.message.server
         if option == None:
-            await client.say("{} Command was used wrongly.\n`ad!report user <id> <reason>`.\n`ad!report server <id> <reason>`.".format(error_img))
+            await client.say("{} Command was used wrongly.\n`*report user <id> <reason>`.\n`*report server <id> <reason>`.".format(error_img))
         else:
             if option == "user" or option == "server":
                 if target == None or reason == None:
-                    await client.say("{} Command was used wrongly.\n`ad!report user <id> <reason>`.\n`ad!report server <id> <reason>`.".format(error_img))
+                    await client.say("{} Command was used wrongly.\n`*report user <id> <reason>`.\n`*report server <id> <reason>`.".format(error_img))
                 else:
                     if len(str(reason)) > 1000:
                             await client.say("{} The reason cannot be longer than 1000 characters.".format(error_img))
@@ -755,7 +755,7 @@ async def bug(ctx, *, args = None):
         await client.say(":x: You are on the ban list and cannot use the bot.")
     else:
         if args == None:
-            await client.say("{} No message given.\n`ad!bug <message>`.".format(error_img))
+            await client.say("{} No message given.\n`*bug <message>`.".format(error_img))
         else:
             if len(str(args)) > 1000:
                 await client.say("{} The message cannot be longer than 1000 characters.".format(error_img))
@@ -1181,7 +1181,7 @@ async def unsetup(ctx):
                 log += "\n--- CLOSING UN-SETUP LOGGER ---"
                 log += "\n```"
                 await client.say(log)
-                await client.say("{} Everything should be done now.\nYou can setup the server again with `ad!setup`.".format(check_img))
+                await client.say("{} Everything should be done now.\nYou can setup the server again with `*setup`.".format(check_img))
                 print("[UNSETUP] FINISHED!!!!")
             except:
                 print("[UNSETUP] ERROR!!!!")
@@ -1189,10 +1189,10 @@ async def unsetup(ctx):
                 log += "\n--- CLOSING UN-SETUP LOGGER ---"
                 log += "\n```"
                 await client.say(log)
-                await client.say("{} Looks like there has been an error!\nMake sure the bot has the required permissions and try again.\nIf you need any help you can use `ad!support`.".format(error_img))
+                await client.say("{} Looks like there has been an error!\nMake sure the bot has the required permissions and try again.\nIf you need any help you can use `*support`.".format(error_img))
                 print("[UNSETUP] ERROR!!!!")
         else:
-            await client.say("{} The server is not setup!\nYou can set it up with `ad!setup`.\nIf you need any help you can use `ad!support`.".format(error_img))
+            await client.say("{} The server is not setup!\nYou can set it up with `*setup`.\nIf you need any help you can use `*support`.".format(error_img))
     else:
         await client.say("{} This command can only be used by users with the `Manage Server` permissions and can be bypassed by the bot's staff.".format(error_img))
 
@@ -1450,7 +1450,7 @@ async def test(ctx):
                 log += "\n--- CLOSING SETUP LOGGER ---"
                 log += "\n```"
                 await client.send_message(log_chnl, log)
-                await client.say("{} Everything should be working like it should!\nIf you have any problems you can use `ad!support`.\nThe test log has been sent to <#{}>.".format(check_img, log_chnl.id))
+                await client.say("{} Everything should be working like it should!\nIf you have any problems you can use `*support`.\nThe test log has been sent to <#{}>.".format(check_img, log_chnl.id))
             except:
                 log += "\n- ^ Error!"
                 log += "\n--- CLOSING TEST LOGGER ---"
@@ -1458,12 +1458,12 @@ async def test(ctx):
                 try:
                     chnl = client.get_channel(log_chnls[0])
                     await client.send_message(chnl, log)
-                    await client.say("{} Looks like there is an error!\nMake sure the bot has the required permissiosn and try again.\nIf you need any help you can use `ad!support`.\nThe test log has been sent to <#{}>.".format(error_img, chnl.id))
+                    await client.say("{} Looks like there is an error!\nMake sure the bot has the required permissiosn and try again.\nIf you need any help you can use `*support`.\nThe test log has been sent to <#{}>.".format(error_img, chnl.id))
                 except:
                     await client.say(log)
-                    await client.say("{} Looks like there is an error!\nMake sure the bot has the required permissiosn and try again.\nIf you need any help you can use `ad!support`.".format(error_img))
+                    await client.say("{} Looks like there is an error!\nMake sure the bot has the required permissiosn and try again.\nIf you need any help you can use `*support`.".format(error_img))
         else:
-            await client.say("{} The server is not setup!\nYou can set it up with `ad!setup`.\nIf you need any help you can use `ad!support`.".format(error_img))
+            await client.say("{} The server is not setup!\nYou can set it up with `*setup`.\nIf you need any help you can use `*support`.".format(error_img))
     else:
         await client.say("{} This command can only be used by users with the `Manage Server` permissions and can be bypassed by the bot's staff.".format(error_img))
 
@@ -1549,7 +1549,7 @@ async def toggle(ctx):
                     except:
                         print("")
             except:
-                await client.say("{} There has been an error in toggling this server!\nFor any help you can use `ad!support`.".format(error_img))
+                await client.say("{} There has been an error in toggling this server!\nFor any help you can use `*support`.".format(error_img))
         else:
             try:
                 await client.send_message(chnl, server.id)
@@ -1583,7 +1583,7 @@ async def warn(ctx, option = None, target = None, *, reason = None):
     author = ctx.message.author
     if author.id in bot_mods or author.id in bot_admins:
         if option == None or target == None or reason == None:
-            await client.say("{} Not all arguments were given!\nExamples:\n`ad!warn user 412201413335056386 Not following the TOS`.\n`ad!warn server 452865346081128448 Not following the TOS`.".format(error_img))
+            await client.say("{} Not all arguments were given!\nExamples:\n`*warn user 412201413335056386 Not following the TOS`.\n`*warn server 452865346081128448 Not following the TOS`.".format(error_img))
         else:
             warnsc = client.get_channel(warns_chnl)
             ubanc = client.get_channel(banned_users_chnl)
@@ -1597,7 +1597,7 @@ async def warn(ctx, option = None, target = None, *, reason = None):
                     if target == a[0]:
                         p.append("+1")
                         if len(p) == 3:
-                            await client.say("That ID has already been warned 3 times. Use `ad!check <user/server> <id>` to check if they are banned.")
+                            await client.say("That ID has already been warned 3 times. Use `*check <user/server> <id>` to check if they are banned.")
                             break
                         else:
                             if len(o) == 2:
@@ -1682,7 +1682,7 @@ async def clear(ctx, option = None, target = None, number = None):
     author = ctx.message.author
     if author.id in bot_mods or author.id in bot_admins:
         if option == None or target == None or number == None:
-            await client.say("{} Not all arguments were given!\nExamples:\n`ad!clear user 412201413335056386 1`.\n`ad!clear server 452865346081128448 3`.".format(error_img))
+            await client.say("{} Not all arguments were given!\nExamples:\n`*clear user 412201413335056386 1`.\n`*clear server 452865346081128448 3`.".format(error_img))
         else:
             try:
                 k = int(number)
@@ -1725,7 +1725,7 @@ async def remind(ctx):
                 embed.title = ""
                 embed.set_image(url="{}".format(reminder_img))
                 embed.set_footer(text=footer_text)
-                m = "***__Remember to use `ad!scan` to ban all the users from Advertiser Bot's ban list.__***"
+                m = "***__Remember to use `*scan` to ban all the users from AdvertiseBot's ban list.__***"
                 m += "\n*These users and servers are banned for either breaking discord or ADbot's TOS.*"
                 m += "\n "
                 m += "\nUsers on the ban list: `{}`".format(len(banned_users))
@@ -1754,7 +1754,7 @@ async def check(ctx, option = None, target = None):
     server = ctx.message.server
     if author.id in bot_mods or author.id in bot_admins:
         if option == None or target == None:
-            await client.say("{} Not all arguments were given!\nExamples:\n`ad!check user 412201413335056386`.\n`ad!check server 452865346081128448`.".format(error_img))
+            await client.say("{} Not all arguments were given!\nExamples:\n`*check user 412201413335056386`.\n`*check server 452865346081128448`.".format(error_img))
         else:
             o = []
             chnl2 = client.get_channel(warns_chnl)
@@ -1836,7 +1836,7 @@ async def msg(ctx, option = None, target = None, *, args = None):
     chnl = client.get_channel(console_chnl)
     if author.id in bot_mods or author.id in bot_admins:
         if option == None or target == None or args == None:
-            await client.say("{} Not all arguments were given!\nExamples:\n`ad!msg user 331398432726056961 Hello! How are you?`.\n`ad!msg server 440108166789988353 Hello! How are you?`.".format(error_img))
+            await client.say("{} Not all arguments were given!\nExamples:\n`*msg user 331398432726056961 Hello! How are you?`.\n`*msg server 440108166789988353 Hello! How are you?`.".format(error_img))
         else:
             if option == "user" or option == "server":
                 if len(str(args)) > 1900:
@@ -1912,7 +1912,7 @@ async def ban(ctx, option = None, target = None, *, reason = None):
     chnl2 = client.get_channel(banned_servers_chnl)
     if author.id in bot_mods or author.id in bot_admins:
         if option == None or target == None or reason == None:
-            await client.say("{} Not all arguments were given!\nExamples:\n`ad!ban user 412201413335056386 Raiding servers`.\n`ad!ban server 452865346081128448 Not following the bot's TOS.`.".format(error_img))
+            await client.say("{} Not all arguments were given!\nExamples:\n`*ban user 412201413335056386 Raiding servers`.\n`*ban server 452865346081128448 Not following the bot's TOS.`.".format(error_img))
         else:
             if option == "user" or option == "server":
                 if len(str(reason)) > 1900:
@@ -1965,7 +1965,7 @@ async def unban(ctx, option = None, target = None):
     cnsl = client.get_channel(console_chnl)
     if author.id in bot_mods or author.id in bot_admins:
         if option == None or target == None:
-            await client.say("{} Not all arguments were given!\nExamples:\n`ad!unban user 412201413335056386`.\n`ad!unban server 440108166789988353`.".format(error_img))
+            await client.say("{} Not all arguments were given!\nExamples:\n`*unban user 412201413335056386`.\n`*unban server 440108166789988353`.".format(error_img))
         else:
             if option == "user":
                 try:
@@ -2209,7 +2209,7 @@ async def mod(ctx, option = None, user: discord.User = None):
     bm = client.get_channel(bot_mods_chnl)
     if author.id in bot_admins:
         if option == None or user == None:
-            await client.say("{} Not all arguments were given!\nExamples:\n`ad!mod add @Bob`.\n`ad!mod del @Bob`.".format(error_img))
+            await client.say("{} Not all arguments were given!\nExamples:\n`*mod add @Looney`.\n`*mod del @Looney`.".format(error_img))
         else:
             if option == "add":
                 if user.id in bot_mods:
@@ -2257,7 +2257,7 @@ async def announce(ctx, *, args = None):
     cnsl = client.get_channel(console_chnl)
     if author.id in bot_admins:
         if args == None:
-            await client.say("{} No text given!\nExample: `ad!announce New update!`.".format(error_img))
+            await client.say("{} No text given!\nExample: `*announce New update!`.".format(error_img))
         elif len(str(args)) > 1900:
             await client.say("{} The text cannot be longer than 1900 characters.".format(error_img))
         else:
@@ -2408,17 +2408,17 @@ async def log(ctx, *, args = None):
     cnsl = client.get_channel(console_chnl)
     if author.id in bot_admins:
         if args == None:
-            await client.say("{} Not all arguments were given!\nExample: `ad!log SMALL UPDATE | The bot just got updated.`.".format(error_img))
+            await client.say("{} Not all arguments were given!\nExample: `*log SMALL UPDATE | The bot just got updated.`.".format(error_img))
         elif len(str(args)) > 1500:
             await client.say("{} The arguments cannot be longer than 1500 characters.".format(error_img))
         else:
             try:
                 args.split('|')
             except:
-                await client.say("{} The command was used wrongly!\nExample: `ad!log SMALL UPDATE | The bot just got updated.`.".format(error_img))
+                await client.say("{} The command was used wrongly!\nExample: `*log SMALL UPDATE | The bot just got updated.`.".format(error_img))
             a = args.split('|')
             if len(a) != 2:
-                await client.say("{} The command was used wrongly!\nExample: `ad!log SMALL UPDATE | The bot just got updated.`.".format(error_img))
+                await client.say("{} The command was used wrongly!\nExample: `*log SMALL UPDATE | The bot just got updated.`.".format(error_img))
             else:
                 await client.say("Sending logs... <a:typing:393848431413559296>")
                 done = []
@@ -2467,7 +2467,7 @@ async def special(ctx, option = None, target = None):
     c2 = client.get_channel(special_servers_msgs_chnl)
     if author.id in bot_admins:
         if option == None or target == None:
-            await client.say("{} Not all arguments were given!\nExamples:\n`ad!special add 440108166789988353`.\n`ad!special del 440108166789988353`.".format(error_img))
+            await client.say("{} Not all arguments were given!\nExamples:\n`*special add 440108166789988353`.\n`*special del 440108166789988353`.".format(error_img))
         elif option == "add":
             if target in special_servers:
                 await client.say("{} That server is already in the special list.".format(error_img))
