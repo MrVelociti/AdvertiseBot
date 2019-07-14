@@ -2783,4 +2783,4 @@ async def ms(ctx):
         await ctx.send("{} This command can only be used by the bot's administrators.".format(error_img))
 
 # TURNS THE BOT ON
-client.run("NTk5NjEwMTcyMTM4MDYxODM0.XSrKng.UbhdFVjbTjaeXRrh06sdOMJpLzI")
+client.run("")
