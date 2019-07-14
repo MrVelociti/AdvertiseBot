@@ -1,7 +1,6 @@
-discord.py==1.0.1
-aiohttp
-websockets
+discord.py
+aiohttp>=3.3.0
+websockets<7.0
 chardet
 asyncio
-requests==2.21.0
-
+requests

@@ -134,16 +134,11 @@ as_chnl = '599887527024918538'
 support_server = '598100229052432396'
 community_server = 'https://discord.gg'
 owner_id = '402316460325601292'
-
-loading_status = discord.Activity(name='- Loading...')
-start_status = discord.Activity(name=' - *help | *support')
-updating_status = discord.Activity(name=' - Updating...')
-
-#start_status = '- *help | *support'
-#loading_status = '- Loading...'
-#updating_status = '- Updating...'
-limit = 10000000000000
-#limit = 100
+start_status = '- *help | *support'
+loading_status = '- Loading...'
+updating_status = '- Updating...'
+#limit = 10000000000000
+limit = 100
 
 
 servers_links = []
@@ -174,8 +169,7 @@ ut_hours = []
 # EVENT - TELLS YOU WHEN THE BOT TURNS ON
 @client.event
 async def on_ready():
-    await client.change_presence(status=discord.Status.dnd, activity=loading_status)
-    #await client.change_presence(game=discord.Activity(name=loading_status), status='dnd')
+    await client.change_presence(game=discord.Activity(name=loading_status), status='dnd')
     ns = client.get_channel(normal_servers_chnl)
     ss = client.get_channel(special_servers_chnl)
     nsm = client.get_channel(normal_servers_msgs_chnl)
@@ -194,7 +188,7 @@ async def on_ready():
     msg += "\n- LOGGED IN -"
     msg += "\n+ Name: {}".format(client.user.name)
     msg += "\n+ ID: {}".format(client.user.id)
-    msg += "\n+ Total server count: {}".format(len(client.guilds))
+    msg += "\n+ Total server count: {}".format(len(client.servers))
     async for message in client.logs_from(ns, limit=limit):
         normal_servers.append(message.content)
         print("[START UP][NORMAL SERVERS] ADDED {}".format(message.content))
@@ -249,14 +243,13 @@ async def on_ready():
         print("[START UP][BOT ADMINISTRATORS] ADDED {}".format(message.content))
     msg += "\n+ Bot administrator count: {}".format(len(bot_admins))
     t1 = time.perf_counter()
-    await client.trigger_typing(c)
+    await client.send_typing(c)
     t2 = time.perf_counter()
     msg += "\n+ Ping: {} ms".format(round((t2-t1)*1000))
     msg += "\n```"
     await client.send_message(c, msg)
     await client.wait_until_ready()
-    #await client.change_presence(game=discord.Game(name=start_status))
-    await client.change_presence(status=discord.Status.online, activity=start_status)
+    await client.change_presence(game=discord.Game(name=start_status))
     print("==========")
     print("==========")
     print("==========")
@@ -329,7 +322,7 @@ async def autoad():
             ns = []
             a_s = []
             cs = []
-            for s in client.guilds:
+            for s in client.servers:
                 if s.id in banned_servers:
                     print("[AUTO AD] SERVER IS BANNED")
                 elif s.id in toggled_servers:
@@ -348,7 +341,7 @@ async def autoad():
             for c in channels_ids:
                 try:
                     c1 = client.get_channel(c)
-                    for srv in client.guilds:
+                    for srv in client.servers:
                         if srv in toggled_servers:
                             if c1 in srv.channels:
                                 print("[AUTO AD] CHANNEL IS TOGGLED")
@@ -439,21 +432,21 @@ async def help(ctx):
         await client.send_message(author, help_msg2)
         await client.send_message(author, help_msg3)
         await client.send_message(author, help_msg4)
-        await ctx.send("Check your DMs. :slight_smile: ")
+        await client.say("Check your DMs. :slight_smile: ")
     except:
-        await ctx.send(":warning: Make sure the bot has permissions to send you DMs!")
+        await client.say(":warning: Make sure the bot has permissions to send you DMs!")
 
 # *ping
 @client.command(pass_context=True)
 async def ping(ctx):
-    if ctx.message.guild.id in banned_servers:
-        await ctx.send(":x: This server is in the ban list and cannot use the bot.")
+    if ctx.message.server.id in banned_servers:
+        await client.say(":x: This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await ctx.send(":x: You are on the ban list and cannot use the bot.")
+        await client.say(":x: You are on the ban list and cannot use the bot.")
     else:
         channel = ctx.message.channel
         t1 = time.perf_counter()
-        await channel.trigger_typing()
+        await client.send_typing(channel)
         t2 = time.perf_counter()
         ping = round((t2-t1)*1000)
         msg = "My ping is: `{}ms`".format(ping)
@@ -463,26 +456,26 @@ async def ping(ctx):
             msg += "\nThe bot might be lagging! <:away:313956277220802560>"
         else:
             msg += "\nThe bot isn't lagging! <:online:313956277808005120>"
-        await ctx.send(msg)
+        await client.say(msg)
 
 # *support <message>
 @client.command(pass_context=True)
 async def support(ctx, *, args = None):
     author = ctx.message.author
-    server = ctx.message.guild
+    server = ctx.message.server
     chnl = client.get_channel(support_chnl)
-    if ctx.message.guild.id in banned_servers:
-        await ctx.send(":x: This server is in the ban list and cannot use the bot.")
+    if ctx.message.server.id in banned_servers:
+        await client.say(":x: This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await ctx.send(":x: You are on the ban list and cannot use the bot.")
+        await client.say(":x: You are on the ban list and cannot use the bot.")
     else:
         if args == None:
-            await ctx.send("{} No message given!\nExample: `*support I need help with setting up the bot.`.\nThe message cannot be longer than 1000 characters.".format(error_img))
+            await client.say("{} No message given!\nExample: `*support I need help with setting up the bot.`.\nThe message cannot be longer than 1000 characters.".format(error_img))
         else:
             if len(str(args)) > 1000:
-                await ctx.send("{} The message cannot be longer than 1000 characters.".format(error_img))
+                await client.say("{} The message cannot be longer than 1000 characters.".format(error_img))
             else:
-                await ctx.send("Sending... <a:typing:393848431413559296>")
+                await client.say("Sending... <a:typing:393848431413559296>")
                 msg = "@everyone "
                 msg += "```diff"
                 msg += "\n- SUPPORT -"
@@ -492,27 +485,27 @@ async def support(ctx, *, args = None):
                 msg += "\n```"
                 msg += "\n{}".format(args)
                 await client.send_message(chnl, msg)
-                await ctx.send("{} Message sent!".format(check_img))
+                await client.say("{} Message sent!".format(check_img))
                 try:
                     await client.send_message(author, "{} The support ticket has been sent to the bot's staff. They will reply using this DM once they see the support ticket.".format(check_img))
                 except:
-                    await ctx.send("{} Make sure the bot can send you DMs!".format(error_img))
+                    await client.say("{} Make sure the bot can send you DMs!".format(error_img))
 
 # *info
 @client.command(pass_context=True)
 async def info(ctx):
-    if ctx.message.guild.id in banned_servers:
-        await ctx.send(":x: This server is in the ban list and cannot use the bot.")
+    if ctx.message.server.id in banned_servers:
+        await client.say(":x: This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await ctx.send(":x: You are on the ban list and cannot use the bot.")
+        await client.say(":x: You are on the ban list and cannot use the bot.")
     else:
         big = []
-        await ctx.send("Collecting information... <a:updating:403035325242540032>")
+        await client.say("Collecting information... <a:updating:403035325242540032>")
         msg = "```diff"
         msg += "\n- INFORMATION ABOUT THE BOT -"
         msg += "\n- VERSION: {} -".format(version)
-        msg += "\n+ Total server count: {}".format(len(client.guilds))
-        for server in client.guilds:
+        msg += "\n+ Total server count: {}".format(len(client.servers))
+        for server in client.servers:
             if len(server.members) >= 750:
                 big.append("+1")
             else:
@@ -527,30 +520,30 @@ async def info(ctx):
         msg += "\n+ Bot's uptime: {}hours {}minutes {}seconds".format(len(ut_hours), len(ut_minutes), len(ut_seconds))
         msg += "\n+ Bot creator's ID: {}".format(owner_id)
         msg += "\n+ Community server link:\n```\n{}".format(community_server)
-        await ctx.send(msg)
+        await client.say(msg)
 
 # *rnd
 @client.command(pass_context=True)
 async def rnd(ctx):
-    if ctx.message.guild.id in banned_servers:
-        await ctx.send(":x: This server is in the ban list and cannot use the bot.")
+    if ctx.message.server.id in banned_servers:
+        await client.say(":x: This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await ctx.send(":x: You are on the ban list and cannot use the bot.")
+        await client.say(":x: You are on the ban list and cannot use the bot.")
     else:
-        await ctx.send("**Random server:**\n{}".format(random.choice(servers_links)))
+        await client.say("**Random server:**\n{}".format(random.choice(servers_links)))
 
 # *serverinfo [server id]
 @client.command(pass_context=True)
 async def serverinfo(ctx, target = None):
-    if ctx.message.guild.id in banned_servers:
-        await ctx.send(":x: This server is in the ban list and cannot use the bot.")
+    if ctx.message.server.id in banned_servers:
+        await client.say(":x: This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await ctx.send(":x: You are on the ban list and cannot use the bot.")
+        await client.say(":x: You are on the ban list and cannot use the bot.")
     else:
         if target == None:
-            await ctx.send("Collecting information... <a:updating:403035325242540032>")
+            await client.say("Collecting information... <a:updating:403035325242540032>")
             try:
-                server = ctx.message.guild
+                server = ctx.message.server
                 msg = "```diff"
                 msg += "\n- INFORMATION ABOUT {} -".format(server.name)
                 msg += "\n+ Members: {}".format(len(server.members))
@@ -575,21 +568,21 @@ async def serverinfo(ctx, target = None):
                 else:
                     msg += "\n+ Setup: False"
                 msg += "\n```"
-                await ctx.send(msg)
+                await client.say(msg)
             except:
-                await ctx.send(":warning: Error in collecting information!\nMake sure the bot has the required permissions.")
+                await client.say(":warning: Error in collecting information!\nMake sure the bot has the required permissions.")
         else:
             found = []
-            await ctx.send("Searching for server...")
-            for server in client.guilds:
+            await client.say("Searching for server...")
+            for server in client.servers:
                 if server.id == target:
                     found.append("+1")
             if len(found) == 0:
-                await ctx.send(":warning: Server not found!\nEither the bot is not in that server or the server doesn't exist.")
+                await client.say(":warning: Server not found!\nEither the bot is not in that server or the server doesn't exist.")
             else:
                 try:
                     server = client.get_server(target)
-                    await ctx.send("Server found!\nCollecting information... <a:updating:403035325242540032>")
+                    await client.say("Server found!\nCollecting information... <a:updating:403035325242540032>")
                     try:
                         msg = "```diff"
                         msg += "\n- INFORMATION ABOUT {} -".format(server.name)
@@ -615,45 +608,45 @@ async def serverinfo(ctx, target = None):
                         else:
                             msg += "\n+ Setup: False"
                         msg += "\n```"
-                        await ctx.send(msg)
+                        await client.say(msg)
                     except:
-                        await ctx.send(":warning: Error in collecting information!\nThe bot may not have the required permissions in that server.")
+                        await client.say(":warning: Error in collecting information!\nThe bot may not have the required permissions in that server.")
                 except:
-                    await ctx.send(":warning: An unknown error occured while trying to collect the information for that server.")
+                    await client.say(":warning: An unknown error occured while trying to collect the information for that server.")
 
 # *invite
 @client.command(pass_context=True)
 async def invite(ctx):
-    if ctx.message.guild.id in banned_servers:
-        await ctx.send(":x: This server is in the ban list and cannot use the bot.")
+    if ctx.message.server.id in banned_servers:
+        await client.say(":x: This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await ctx.send(":x: You are on the ban list and cannot use the bot.")
+        await client.say(":x: You are on the ban list and cannot use the bot.")
     else:
-        await ctx.send("Here is the link to invite the bot:\n \nhttps://discordapp.com/oauth2/authorize?client_id=439051827384680449&scope=bot&permissions=537259127")
+        await client.say("Here is the link to invite the bot:\n \nhttps://discordapp.com/oauth2/authorize?client_id=439051827384680449&scope=bot&permissions=537259127")
 
 # *tos
 @client.command(pass_context=True)
 async def tos(ctx):
-    await ctx.send(tos_msg)
-    await ctx.send(tos_msg2)
+    await client.say(tos_msg)
+    await client.say(tos_msg2)
 
 # *suggest <suggestion>
 @client.command(pass_context=True)
 async def suggest(ctx, *, args = None):
-    if ctx.message.guild.id in banned_servers:
-        await ctx.send(":x: This server is in the ban list and cannot use the bot.")
+    if ctx.message.server.id in banned_servers:
+        await client.say(":x: This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await ctx.send(":x: You are on the ban list and cannot use the bot.")
+        await client.say(":x: You are on the ban list and cannot use the bot.")
     else:
         author = ctx.message.author
-        server = ctx.message.guild
+        server = ctx.message.server
         if args == None:
-            await ctx.send("{} No suggestion given.".format(error_img))
+            await client.say("{} No suggestion given.".format(error_img))
         else:
             if len(str(args)) > 1000:
-                await ctx.send("{} The suggestion cannot be longer than 1000 characters.".format(error_img))
+                await client.say("{} The suggestion cannot be longer than 1000 characters.".format(error_img))
             else:
-                await ctx.send("Sending suggestion... <a:typing:393848431413559296>")
+                await client.say("Sending suggestion... <a:typing:393848431413559296>")
                 try:
                     chnl = client.get_channel(suggestions_chnl)
                     msg = "```diff"
@@ -664,17 +657,17 @@ async def suggest(ctx, *, args = None):
                     msg += "\n```"
                     msg += "\n{}".format(args)
                     await client.send_message(chnl, msg)
-                    await ctx.send(":white_check_mark: Suggestion sent!")
+                    await client.say(":white_check_mark: Suggestion sent!")
                 except:
-                    await ctx.send("{} Error in sending suggestion.".format(error_img))
+                    await client.say("{} Error in sending suggestion.".format(error_img))
 
 # *uptime
 @client.command(pass_context=True)
 async def uptime(ctx):
-    if ctx.message.guild.id in banned_servers:
-        await ctx.send(":x: This server is in the ban list and cannot use the bot.")
+    if ctx.message.server.id in banned_servers:
+        await client.say(":x: This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await ctx.send(":x: You are on the ban list and cannot use the bot.")
+        await client.say(":x: You are on the ban list and cannot use the bot.")
     else:
         nr_hours = 23 - len(ut_hours)
         nr_minutes = 59 - len(ut_minutes)
@@ -691,32 +684,32 @@ async def uptime(ctx):
         msg += "\n+ {} minute(s)".format(nr_minutes)
         msg += "\n+ {} second(s)".format(nr_seconds)
         msg += "\n```"
-        await ctx.send(msg)
+        await client.say(msg)
 
 # *report <user/server> <id> <reason>
 @client.command(pass_context=True)
 async def report(ctx, option = None, target = None, *, reason = None):
-    if ctx.message.guild.id in banned_servers:
-        await ctx.send(":x: This server is in the ban list and cannot use the bot.")
+    if ctx.message.server.id in banned_servers:
+        await client.say(":x: This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await ctx.send(":x: You are on the ban list and cannot use the bot.")
+        await client.say(":x: You are on the ban list and cannot use the bot.")
     else:
         author = ctx.message.author
-        server = ctx.message.guild
+        server = ctx.message.server
         if option == None:
-            await ctx.send("{} Command was used wrongly.\n`*report user <id> <reason>`.\n`*report server <id> <reason>`.".format(error_img))
+            await client.say("{} Command was used wrongly.\n`*report user <id> <reason>`.\n`*report server <id> <reason>`.".format(error_img))
         else:
             if option == "user" or option == "server":
                 if target == None or reason == None:
-                    await ctx.send("{} Command was used wrongly.\n`*report user <id> <reason>`.\n`*report server <id> <reason>`.".format(error_img))
+                    await client.say("{} Command was used wrongly.\n`*report user <id> <reason>`.\n`*report server <id> <reason>`.".format(error_img))
                 else:
                     if len(str(reason)) > 1000:
-                            await ctx.send("{} The reason cannot be longer than 1000 characters.".format(error_img))
+                            await client.say("{} The reason cannot be longer than 1000 characters.".format(error_img))
                     else:
                         if option == "user":
                             found = []
                             chnl = client.get_channel(reports_users_chnl)
-                            await ctx.send("Reporting... <a:typing:393848431413559296>")
+                            await client.say("Reporting... <a:typing:393848431413559296>")
                             try:
                                 msg = "```diff"
                                 msg += "\n- USER REPORT -"
@@ -727,13 +720,13 @@ async def report(ctx, option = None, target = None, *, reason = None):
                                 msg += "\n```"
                                 msg += "\n{}".format(reason)
                                 await client.send_message(chnl, msg)
-                                await ctx.send("{} Reported!".format(check_img))
+                                await client.say("{} Reported!".format(check_img))
                             except:
-                                await ctx.send("{} Error in sending report.".format(error_img))
+                                await client.say("{} Error in sending report.".format(error_img))
                         elif option == "server":
                             found = []
                             chnl = client.get_channel(reports_servers_chnl)
-                            await ctx.send("Reporting... <a:typing:393848431413559296>")
+                            await client.say("Reporting... <a:typing:393848431413559296>")
                             try:
                                 msg = "```diff"
                                 msg += "\n- SERVER REPORT -"
@@ -748,32 +741,32 @@ async def report(ctx, option = None, target = None, *, reason = None):
                                 msg += "\n```"
                                 msg += "\n{}".format(reason)
                                 await client.send_message(chnl, msg)
-                                await ctx.send("{} Reported!".format(check_img))
+                                await client.say("{} Reported!".format(check_img))
                             except:
-                                await ctx.send("{} Error in sending report.".format(error_img))
+                                await client.say("{} Error in sending report.".format(error_img))
                         else:
-                            await ctx.send("{} Command was used wrongly.\n`ad!report user <id> <reason>`.\n`ad!report server <id> <reason>`.".format(error_img))
+                            await client.say("{} Command was used wrongly.\n`ad!report user <id> <reason>`.\n`ad!report server <id> <reason>`.".format(error_img))
             else:
-                await ctx.send("{} Command was used wrongly.\n`ad!report user <id> <reason>`.\n`ad!report server <id> <reason>`.".format(error_img))
+                await client.say("{} Command was used wrongly.\n`ad!report user <id> <reason>`.\n`ad!report server <id> <reason>`.".format(error_img))
 
 # *bug <message>
 @client.command(pass_context=True)
 async def bug(ctx, *, args = None):
-    if ctx.message.guild.id in banned_servers:
-        await ctx.send(":x: This server is in the ban list and cannot use the bot.")
+    if ctx.message.server.id in banned_servers:
+        await client.say(":x: This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await ctx.send(":x: You are on the ban list and cannot use the bot.")
+        await client.say(":x: You are on the ban list and cannot use the bot.")
     else:
         if args == None:
-            await ctx.send("{} No message given.\n`*bug <message>`.".format(error_img))
+            await client.say("{} No message given.\n`*bug <message>`.".format(error_img))
         else:
             if len(str(args)) > 1000:
-                await ctx.send("{} The message cannot be longer than 1000 characters.".format(error_img))
+                await client.say("{} The message cannot be longer than 1000 characters.".format(error_img))
             else:
                 author = ctx.message.author
-                server = ctx.message.guild
+                server = ctx.message.server
                 chnl = client.get_channel(reports_bugs_chnl)
-                await ctx.send("Reporting the bug... <a:typing:393848431413559296>")
+                await client.say("Reporting the bug... <a:typing:393848431413559296>")
                 try:
                     msg = "```diff"
                     msg += "\n- BUG REPORT -"
@@ -783,9 +776,9 @@ async def bug(ctx, *, args = None):
                     msg += "\n```"
                     msg += "\n{}".format(args)
                     await client.send_message(chnl, msg)
-                    await ctx.send("{} Reported the bug!".format(check_img))
+                    await client.say("{} Reported the bug!".format(check_img))
                 except:
-                    await ctx.send("{} Error in reporting the bug!".format(error_img))
+                    await client.say("{} Error in reporting the bug!".format(error_img))
 
 
 # *m [user]
@@ -796,18 +789,18 @@ async def m(ctx, user: discord.User = None):
     else:
         author = user
     if author.id in bot_admins:
-        await ctx.send("{} <@{}> is a bot administrator.".format(check_img, author.id))
+        await client.say("{} <@{}> is a bot administrator.".format(check_img, author.id))
     elif author.id in bot_mods:
-        await ctx.send("{} <@{}> is a bot moderator.".format(check_img, author.id))
+        await client.say("{} <@{}> is a bot moderator.".format(check_img, author.id))
     else:
-        await ctx.send("{} <@{}> is not a bot administrator nor a bot moderator.".format(x_img, author.id))
+        await client.say("{} <@{}> is not a bot administrator nor a bot moderator.".format(x_img, author.id))
 
 ''' COMMANDS ONLY FOR GUILD OWNER OR ADMIN '''
 # *tas
 @client.command(pass_context=True)
 async def tas(ctx):
     author = ctx.message.author
-    server = ctx.message.guild
+    server = ctx.message.server
     if author.server_permissions.manage_server or author.id in bot_mods or author.id in bot_admins:
         chnl = client.get_channel(as_chnl)
         if server.id in ass:
@@ -818,24 +811,24 @@ async def tas(ctx):
                     break
                 else:
                     print("")
-            await ctx.send("{} The auto-scan has been toggled on for this server.".format(check_img))
+            await client.say("{} The auto-scan has been toggled on for this server.".format(check_img))
         else:
             ass.append(server.id)
             await client.send_message(chnl, server.id)
-            await ctx.send("{} The auto-scan has been toggled off for this server.".format(check_img))
+            await client.say("{} The auto-scan has been toggled off for this server.".format(check_img))
     else:
-        await ctx.send("{} This command can only be used by users with the `Manage Server` permissions and can be bypassed by the bot's staff.".format(error_img))
+        await client.say("{} This command can only be used by users with the `Manage Server` permissions and can be bypassed by the bot's staff.".format(error_img))
 
 # *setup [log channel] [channel] [message]
 @client.command(pass_context=True)
 async def setup(ctx, log_channel: discord.channel = None, channel: discord.channel = None, *, message = None):
-    if ctx.message.guild.id in banned_servers:
-        await ctx.send(":x: This server is in the ban list and cannot use the bot.")
+    if ctx.message.server.id in banned_servers:
+        await client.say(":x: This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await ctx.send(":x: You are on the ban list and cannot use the bot.")
+        await client.say(":x: You are on the ban list and cannot use the bot.")
     else:
         author = ctx.message.author
-        server = ctx.message.guild
+        server = ctx.message.server
         if author.server_permissions.manage_server or author.id in bot_mods or author.id in bot_admins:
             if channel == None or message == None or log_channel == None:
                 a = "```diff"
@@ -864,18 +857,18 @@ async def setup(ctx, log_channel: discord.channel = None, channel: discord.chann
                 a += "\n "
                 a += "\n+ If you have any issues with the bot just use the *support command."
                 a += "\n```"
-                await ctx.send(a)
+                await client.say(a)
             elif server.id in normal_servers or server.id in special_servers:
-                await ctx.send("{} This server is already being advertised.\nYou can use `*unsetup` to un-set it up.".format(error_img))
+                await client.say("{} This server is already being advertised.\nYou can use `*unsetup` to un-set it up.".format(error_img))
             else:
                 if len(str(message)) > 500:
-                    await ctx.send("{} The message cannot be longer than 500 characters.".format(error_img))
+                    await client.say("{} The message cannot be longer than 500 characters.".format(error_img))
                 else:
                     urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', message)
                     if len(urls) != 0:
-                        await ctx.send("{} Please do not put any links in your message!".format(error_img))
+                        await client.say("{} Please do not put any links in your message!".format(error_img))
                     else:
-                        await ctx.send("Starting setup... <a:typing:393848431413559296>")
+                        await client.say("Starting setup... <a:typing:393848431413559296>")
                         log = "```diff"
                         log += "\n--- STARTING SETUP LOGGER ---"
                         try:
@@ -918,13 +911,13 @@ async def setup(ctx, log_channel: discord.channel = None, channel: discord.chann
                             tl += "\n- TEST LOG MESSAGE -"
                             tl += "\n+ {}".format(server.id)
                             found = []
-                            for srv in client.guilds:
+                            for srv in client.servers:
                                 if srv.id == server.id:
                                     found.append("+1")
                                     break
                                 else:
                                     print("")
-                            tl += "\n+ {}/{}".format(len(found), len(client.guilds))
+                            tl += "\n+ {}/{}".format(len(found), len(client.servers))
                             tl += "\n```"
                             log += "\n+ Log message created!"
                             log += "\n= Trying to convert the log message into an embed..."
@@ -977,32 +970,32 @@ async def setup(ctx, log_channel: discord.channel = None, channel: discord.chann
                             log += "\n--- CLOSING SETUP LOGGER ---"
                             log += "\n```"
                             await client.send_message(log_chnl, log)
-                            await ctx.send("{} Everything should be working now and your server should be advertised.\nYou can use `*test` to check if everything is working.\nThe setup log has been sent to <#{}>.\nIf you have any questions or need any help, just use `*support`.\nThank you for using this bot! :grinning: ".format(check_img, log_chnl_id))
+                            await client.say("{} Everything should be working now and your server should be advertised.\nYou can use `*test` to check if everything is working.\nThe setup log has been sent to <#{}>.\nIf you have any questions or need any help, just use `*support`.\nThank you for using this bot! :grinning: ".format(check_img, log_chnl_id))
                         except:
                             log += "\n- ^ Error!"
                             log += "\n--- CLOSING SETUP LOGGER ---"
                             log += "\n```"
                             try:
                                 await client.send_message(log_chnl, log)
-                                await ctx.send("{} Looks like an error occured!\nThe setup log has been sent to <#{}>.\nMake sure the bot has the required permissions.\nYou can use `ad!unsetup` and try again.\nIf you need any help, just use `ad!support`.".format(error_img, log_chnl_id))
+                                await client.say("{} Looks like an error occured!\nThe setup log has been sent to <#{}>.\nMake sure the bot has the required permissions.\nYou can use `ad!unsetup` and try again.\nIf you need any help, just use `ad!support`.".format(error_img, log_chnl_id))
                             except:
-                                await ctx.send(log)
-                                await ctx.send("{} Looks like an error occured!\nMake sure the bot has the required permissions.\nYou can use `ad!unsetup` and try again.\nIf you need any help, just use `ad!support`.".format(error_img))
+                                await client.say(log)
+                                await client.say("{} Looks like an error occured!\nMake sure the bot has the required permissions.\nYou can use `ad!unsetup` and try again.\nIf you need any help, just use `ad!support`.".format(error_img))
         else:
-            await ctx.send("{} This command can only be used by users with the `Manage Server` permissions and can be bypassed by the bot's staff.".format(error_img))
+            await client.say("{} This command can only be used by users with the `Manage Server` permissions and can be bypassed by the bot's staff.".format(error_img))
 
 # *unsetup
 @client.command(pass_context=True)
 async def unsetup(ctx):
     author = ctx.message.author
-    server = ctx.message.guild
-    if ctx.message.guild.id in banned_servers:
-        await ctx.send(":x: This server is in the ban list and cannot use the bot.")
+    server = ctx.message.server
+    if ctx.message.server.id in banned_servers:
+        await client.say(":x: This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await ctx.send(":x: You are on the ban list and cannot use the bot.")
+        await client.say(":x: You are on the ban list and cannot use the bot.")
     elif author.server_permissions.manage_server or author.id in bot_mods or author.id in bot_admins:
         if server.id in normal_servers:
-            await ctx.send("Removing data... <a:typing:393848431413559296>")
+            await client.say("Removing data... <a:typing:393848431413559296>")
             log = "```diff"
             log += "\n--- STARTING UN-SETUP LOGGER ---"
             try:
@@ -1190,34 +1183,34 @@ async def unsetup(ctx):
                 log += "\n+ Finished!"
                 log += "\n--- CLOSING UN-SETUP LOGGER ---"
                 log += "\n```"
-                await ctx.send(log)
-                await ctx.send("{} Everything should be done now.\nYou can setup the server again with `*setup`.".format(check_img))
+                await client.say(log)
+                await client.say("{} Everything should be done now.\nYou can setup the server again with `*setup`.".format(check_img))
                 print("[UNSETUP] FINISHED!!!!")
             except:
                 print("[UNSETUP] ERROR!!!!")
                 log += "\n- ^ Error!"
                 log += "\n--- CLOSING UN-SETUP LOGGER ---"
                 log += "\n```"
-                await ctx.send(log)
-                await ctx.send("{} Looks like there has been an error!\nMake sure the bot has the required permissions and try again.\nIf you need any help you can use `*support`.".format(error_img))
+                await client.say(log)
+                await client.say("{} Looks like there has been an error!\nMake sure the bot has the required permissions and try again.\nIf you need any help you can use `*support`.".format(error_img))
                 print("[UNSETUP] ERROR!!!!")
         else:
-            await ctx.send("{} The server is not setup!\nYou can set it up with `*setup`.\nIf you need any help you can use `*support`.".format(error_img))
+            await client.say("{} The server is not setup!\nYou can set it up with `*setup`.\nIf you need any help you can use `*support`.".format(error_img))
     else:
-        await ctx.send("{} This command can only be used by users with the `Manage Server` permissions and can be bypassed by the bot's staff.".format(error_img))
+        await client.say("{} This command can only be used by users with the `Manage Server` permissions and can be bypassed by the bot's staff.".format(error_img))
 
 # ad!test
 @client.command(pass_context=True)
 async def test(ctx):
     author = ctx.message.author
-    server = ctx.message.guild
-    if ctx.message.guild.id in banned_servers:
-        await ctx.send(":x: This server is in the ban list and cannot use the bot.")
+    server = ctx.message.server
+    if ctx.message.server.id in banned_servers:
+        await client.say(":x: This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await ctx.send(":x: You are on the ban list and cannot use the bot.")
+        await client.say(":x: You are on the ban list and cannot use the bot.")
     elif author.server_permissions.manage_server or author.id in bot_mods or author.id in bot_admins:
         if server.id in normal_servers:
-            await ctx.send("Testing... <a:typing:393848431413559296>")
+            await client.say("Testing... <a:typing:393848431413559296>")
             log = "```diff"
             log += "\n--- STARTING TEST LOGGER (NORMAL) ---"
             nsm = client.get_channel(normal_servers_msgs_chnl)
@@ -1310,13 +1303,13 @@ async def test(ctx):
                 tl += "\n- TEST LOG MESSAGE -"
                 tl += "\n+ {}".format(server.id)
                 found = []
-                for srv in client.guilds:
+                for srv in client.servers:
                     if srv.id == server.id:
                         found.append("+1")
                         break
                     else:
                         print("")
-                tl += "\n+ {}/{}".format(len(found), len(client.guilds))
+                tl += "\n+ {}/{}".format(len(found), len(client.servers))
                 tl += "\n```"
                 embed2 = discord.Embed(colour=0x00FF00, description= "")
                 embed2.title = ""
@@ -1332,7 +1325,7 @@ async def test(ctx):
                 log += "\n--- CLOSING SETUP LOGGER ---"
                 log += "\n```"
                 await client.send_message(log_chnl, log)
-                await ctx.send("{} Everything should be working like it should!\nIf you have any problems you can use `ad!support`.\nThe test log has been sent to <#{}>.".format(check_img, log_chnl.id))
+                await client.say("{} Everything should be working like it should!\nIf you have any problems you can use `ad!support`.\nThe test log has been sent to <#{}>.".format(check_img, log_chnl.id))
             except:
                 log += "\n- ^ Error!"
                 log += "\n--- CLOSING TEST LOGGER ---"
@@ -1340,12 +1333,12 @@ async def test(ctx):
                 try:
                     chnl = client.get_channel(log_chnls[0])
                     await client.send_message(chnl, log)
-                    await ctx.send("{} Looks like there is an error!\nMake sure the bot has the required permissiosn and try again.\nIf you need any help you can use `ad!support`.\nThe test log has been sent to <#{}>.".format(error_img, chnl.id))
+                    await client.say("{} Looks like there is an error!\nMake sure the bot has the required permissiosn and try again.\nIf you need any help you can use `ad!support`.\nThe test log has been sent to <#{}>.".format(error_img, chnl.id))
                 except:
-                    await ctx.send(log)
-                    await ctx.send("{} Looks like there is an error!\nMake sure the bot has the required permissiosn and try again.\nIf you need any help you can use `ad!support`.".format(error_img))
+                    await client.say(log)
+                    await client.say("{} Looks like there is an error!\nMake sure the bot has the required permissiosn and try again.\nIf you need any help you can use `ad!support`.".format(error_img))
         elif server.id in special_servers:
-            await ctx.send("Testing... <a:typing:393848431413559296>")
+            await client.say("Testing... <a:typing:393848431413559296>")
             log = "```diff"
             log += "\n--- STARTING TEST LOGGER (SPECIAL) ---"
             ssm = client.get_channel(special_servers_msgs_chnl)
@@ -1438,13 +1431,13 @@ async def test(ctx):
                 tl += "\n- TEST LOG MESSAGE -"
                 tl += "\n+ {}".format(server.id)
                 found = []
-                for srv in client.guilds:
+                for srv in client.servers:
                     if srv.id == server.id:
                         found.append("+1")
                         break
                     else:
                         print("")
-                tl += "\n+ {}/{}".format(len(found), len(client.guilds))
+                tl += "\n+ {}/{}".format(len(found), len(client.servers))
                 tl += "\n```"
                 embed2 = discord.Embed(colour=0x00FF00, description= "")
                 embed2.title = ""
@@ -1460,7 +1453,7 @@ async def test(ctx):
                 log += "\n--- CLOSING SETUP LOGGER ---"
                 log += "\n```"
                 await client.send_message(log_chnl, log)
-                await ctx.send("{} Everything should be working like it should!\nIf you have any problems you can use `*support`.\nThe test log has been sent to <#{}>.".format(check_img, log_chnl.id))
+                await client.say("{} Everything should be working like it should!\nIf you have any problems you can use `*support`.\nThe test log has been sent to <#{}>.".format(check_img, log_chnl.id))
             except:
                 log += "\n- ^ Error!"
                 log += "\n--- CLOSING TEST LOGGER ---"
@@ -1468,26 +1461,26 @@ async def test(ctx):
                 try:
                     chnl = client.get_channel(log_chnls[0])
                     await client.send_message(chnl, log)
-                    await ctx.send("{} Looks like there is an error!\nMake sure the bot has the required permissiosn and try again.\nIf you need any help you can use `*support`.\nThe test log has been sent to <#{}>.".format(error_img, chnl.id))
+                    await client.say("{} Looks like there is an error!\nMake sure the bot has the required permissiosn and try again.\nIf you need any help you can use `*support`.\nThe test log has been sent to <#{}>.".format(error_img, chnl.id))
                 except:
-                    await ctx.send(log)
-                    await ctx.send("{} Looks like there is an error!\nMake sure the bot has the required permissiosn and try again.\nIf you need any help you can use `*support`.".format(error_img))
+                    await client.say(log)
+                    await client.say("{} Looks like there is an error!\nMake sure the bot has the required permissiosn and try again.\nIf you need any help you can use `*support`.".format(error_img))
         else:
-            await ctx.send("{} The server is not setup!\nYou can set it up with `*setup`.\nIf you need any help you can use `*support`.".format(error_img))
+            await client.say("{} The server is not setup!\nYou can set it up with `*setup`.\nIf you need any help you can use `*support`.".format(error_img))
     else:
-        await ctx.send("{} This command can only be used by users with the `Manage Server` permissions and can be bypassed by the bot's staff.".format(error_img))
+        await client.say("{} This command can only be used by users with the `Manage Server` permissions and can be bypassed by the bot's staff.".format(error_img))
 
 # ad!scan
 @client.command(pass_context=True)
 async def scan(ctx):
     author = ctx.message.author
-    server = ctx.message.guild
-    if ctx.message.guild.id in banned_servers:
-        await ctx.send(":x: This server is in the ban list and cannot use the bot.")
+    server = ctx.message.server
+    if ctx.message.server.id in banned_servers:
+        await client.say(":x: This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await ctx.send(":x: You are on the ban list and cannot use the bot.")
+        await client.say(":x: You are on the ban list and cannot use the bot.")
     elif author.server_permissions.manage_server or author.id in bot_mods or author.id in bot_admins:
-        await ctx.send("Scanning... <a:typing:393848431413559296>")
+        await client.say("Scanning... <a:typing:393848431413559296>")
         ban = []
         fail = []
         for i in banned_users:
@@ -1508,29 +1501,29 @@ async def scan(ctx):
                 if chnl in server.channels:
                     try:
                         await client.send_message(chnl, msg)
-                        await ctx.send("{} Scan complete!\nThe scan log has been sent to <#{}>.".format(check_img, c))
+                        await client.say("{} Scan complete!\nThe scan log has been sent to <#{}>.".format(check_img, c))
                     except:
-                        await ctx.send("{} Scan complete!\n{}".format(check_img, msg))
+                        await client.say("{} Scan complete!\n{}".format(check_img, msg))
                     break
                 else:
                     print("")
             except:
                 print("")
     else:
-        await ctx.send("{} This command can only be used by users with the `Manage Server` permissions and can be bypassed by the bot's staff.".format(error_img))
+        await client.say("{} This command can only be used by users with the `Manage Server` permissions and can be bypassed by the bot's staff.".format(error_img))
 
 # ad!toggle
 @client.command(pass_context=True)
 async def toggle(ctx):
     author = ctx.message.author
-    server = ctx.message.guild
+    server = ctx.message.server
     chnl = client.get_channel(toggled_servers_chnl)
-    if ctx.message.guild.id in banned_servers:
-        await ctx.send(":x: This server is in the ban list and cannot use the bot.")
+    if ctx.message.server.id in banned_servers:
+        await client.say(":x: This server is in the ban list and cannot use the bot.")
     elif ctx.message.author.id in banned_users:
-        await ctx.send(":x: You are on the ban list and cannot use the bot.")
+        await client.say(":x: You are on the ban list and cannot use the bot.")
     elif author.server_permissions.manage_server or author.id in bot_mods or author.id in bot_admins:
-        await ctx.send("Toggling... <a:typing:393848431413559296>")
+        await client.say("Toggling... <a:typing:393848431413559296>")
         if server.id in toggled_servers:
             try:
                 async for message in client.logs_from(chnl, limit=limit):
@@ -1550,16 +1543,16 @@ async def toggle(ctx):
                         if log in server.channels:
                             try:
                                 await client.send_message(log, msg)
-                                await ctx.send("{} The bot will now continue advertising your server!\nThe toggle log was sent to <#{}>.".format(check_img, c))
+                                await client.say("{} The bot will now continue advertising your server!\nThe toggle log was sent to <#{}>.".format(check_img, c))
                             except:
-                                await ctx.send("{} The bot will now continue advertising your server!".format(check_img))
+                                await client.say("{} The bot will now continue advertising your server!".format(check_img))
                             break
                         else:
                             print("")
                     except:
                         print("")
             except:
-                await ctx.send("{} There has been an error in toggling this server!\nFor any help you can use `*support`.".format(error_img))
+                await client.say("{} There has been an error in toggling this server!\nFor any help you can use `*support`.".format(error_img))
         else:
             try:
                 await client.send_message(chnl, server.id)
@@ -1574,17 +1567,17 @@ async def toggle(ctx):
                         if log in server.channels:
                             try:
                                 await client.send_message(log, msg)
-                                await ctx.send("{} The bot won't advertise your server until you un-toggle it!\nThe toggle log was sent to <#{}>.".format(check_img, c))
+                                await client.say("{} The bot won't advertise your server until you un-toggle it!\nThe toggle log was sent to <#{}>.".format(check_img, c))
                             except:
-                                await ctx.send("{} The bot won't advertise your server until you un-toggle it!".format(check_img))
+                                await client.say("{} The bot won't advertise your server until you un-toggle it!".format(check_img))
                         else:
                             print("")
                     except:
                         print("")
             except:
-                await ctx.send("{} There has been an error in toggling this server!\nFor any help you can use `ad!support`.".format(error_img))
+                await client.say("{} There has been an error in toggling this server!\nFor any help you can use `ad!support`.".format(error_img))
     else:
-        await ctx.send("{} This command can only be used by users with the `Manage Server` permissions and can be bypassed by the bot's staff.".format(error_img))
+        await client.say("{} This command can only be used by users with the `Manage Server` permissions and can be bypassed by the bot's staff.".format(error_img))
 
 ''' COMMANDS FOR BOT MODERATORS '''
 # ad!warn <user/server> <id> <reason>
@@ -1593,7 +1586,7 @@ async def warn(ctx, option = None, target = None, *, reason = None):
     author = ctx.message.author
     if author.id in bot_mods or author.id in bot_admins:
         if option == None or target == None or reason == None:
-            await ctx.send("{} Not all arguments were given!\nExamples:\n`*warn user 412201413335056386 Not following the TOS`.\n`*warn server 452865346081128448 Not following the TOS`.".format(error_img))
+            await client.say("{} Not all arguments were given!\nExamples:\n`*warn user 412201413335056386 Not following the TOS`.\n`*warn server 452865346081128448 Not following the TOS`.".format(error_img))
         else:
             warnsc = client.get_channel(warns_chnl)
             ubanc = client.get_channel(banned_users_chnl)
@@ -1607,7 +1600,7 @@ async def warn(ctx, option = None, target = None, *, reason = None):
                     if target == a[0]:
                         p.append("+1")
                         if len(p) == 3:
-                            await ctx.send("That ID has already been warned 3 times. Use `*check <user/server> <id>` to check if they are banned.")
+                            await client.say("That ID has already been warned 3 times. Use `*check <user/server> <id>` to check if they are banned.")
                             break
                         else:
                             if len(o) == 2:
@@ -1623,68 +1616,68 @@ async def warn(ctx, option = None, target = None, *, reason = None):
                         if option == "user":
                             try:
                                 user = await client.get_user_info(target)
-                                await ctx.send("{} User found: **{}**\nBanning and sending DM... <a:typing:393848431413559296>".format(check_img, user))
+                                await client.say("{} User found: **{}**\nBanning and sending DM... <a:typing:393848431413559296>".format(check_img, user))
                                 o.append("+1")
                                 try:
                                     await client.send_message(user, ":warning: \nYou have been warned by the Advertiser Bot's staff.\n`Reason:` {}\n`Warning count:` {}/3.".format(reason, len(o)))
                                 except:
-                                    await ctx.send("{} Unable to DM that user.".format(error_img))
+                                    await client.say("{} Unable to DM that user.".format(error_img))
                                 banned_users.append(target)
                                 await client.send_message(ubanc, "{} | Reached max warnings.".format(user.id))
-                                await ctx.send("{} The user has been warned and banned!".format(check_img))
+                                await client.say("{} The user has been warned and banned!".format(check_img))
                             except:
-                                await ctx.send("{} User not found!".format(error_img))
+                                await client.say("{} User not found!".format(error_img))
                             await client.send_message(warnsc, "{} | {} ### {} | {} | user | {}".format(target, author, author.id, reason, len(p) + 1))
                         elif option == "server":
                             try:
                                 server = client.get_server(target)
-                                await ctx.send("{} Server found: **{}**\nBanning and sending DM... <a:typing:393848431413559296>".format(check_img, server))
+                                await client.say("{} Server found: **{}**\nBanning and sending DM... <a:typing:393848431413559296>".format(check_img, server))
                                 o.append("+1")
                                 try:
                                     await client.send_message(server.owner, ":warning: \nYour server `{}` has been warned by the Advertiser Bot's staff.\n`Reason:` {}\n`Warning count:` {}/3.".format(server.name, reason, len(o)))
                                 except:
-                                    await ctx.send("{} Unable to DM the server owner.".format(error_img))
+                                    await client.say("{} Unable to DM the server owner.".format(error_img))
                                 banned_servers.append(target)
                                 await client.send_message(sbanc, "{} | Reached max warnings.".format(server.id))
-                                await ctx.send("{} The server has been warned and banned!".format(check_img))
+                                await client.say("{} The server has been warned and banned!".format(check_img))
                             except:
-                                await ctx.send("{} Server not found!".format(error_img))
+                                await client.say("{} Server not found!".format(error_img))
                             await client.send_message(warnsc, "{} | {} ### {} | {} | server | {}".format(target, author, author.id, reason, len(p) + 1))
                         else:
-                            await ctx.send("{} Invalid option!\nOptions: `user`, `server`.")
+                            await client.say("{} Invalid option!\nOptions: `user`, `server`.")
                     else:
                         if option == "user":
                             try:
                                 user = await client.get_user_info(target)
-                                await ctx.send("{} User found: **{}**\nSending DM... <a:typing:393848431413559296>".format(check_img, user))
+                                await client.say("{} User found: **{}**\nSending DM... <a:typing:393848431413559296>".format(check_img, user))
                                 o.append("+1")
                                 try:
                                     await client.send_message(user, ":warning: \nYou have been warned by the Advertiser Bot's staff.\n`Reason:` {}\n`Warning count:` {}/3.".format(reason, len(o)))
                                 except:
-                                    await ctx.send("{} Unable to DM that user.".format(error_img))
-                                await ctx.send("{} The user has been warned!".format(check_img))
+                                    await client.say("{} Unable to DM that user.".format(error_img))
+                                await client.say("{} The user has been warned!".format(check_img))
                                 await client.send_message(warnsc, "{} | {} ### {} | {} | user | {}".format(target, author, author.id, reason, len(p) + 1))
                             except:
-                                await ctx.send("{} User not found!".format(error_img))
+                                await client.say("{} User not found!".format(error_img))
                         elif option == "server":
                             try:
                                 server = client.get_server(target)
-                                await ctx.send("{} Server found: **{}**\nSending DM... <a:typing:393848431413559296>".format(check_img, server))
+                                await client.say("{} Server found: **{}**\nSending DM... <a:typing:393848431413559296>".format(check_img, server))
                                 o.append("+1")
                                 try:
                                     await client.send_message(server.owner, ":warning: \nYour server `{}` has been warned by the Advertiser Bot's staff.\n`Reason:` {}\n`Warning count:` {}/3.".format(server.name, reason, len(o)))
                                 except:
-                                    await ctx.send("{} Unable to DM the server owner.".format(error_img))
-                                await ctx.send("{} The server has been warned!".format(check_img))
+                                    await client.say("{} Unable to DM the server owner.".format(error_img))
+                                await client.say("{} The server has been warned!".format(check_img))
                             except:
-                                await ctx.send("{} Server not found!".format(error_img))
+                                await client.say("{} Server not found!".format(error_img))
                             await client.send_message(warnsc, "{} | {} ### {} | {} | server | {}".format(target, author, author.id, reason, len(p) + 1))
                         else:
-                            await ctx.send("{} Invalid option!\nOptions: `user`, `server`.".format(error_img))
+                            await client.say("{} Invalid option!\nOptions: `user`, `server`.".format(error_img))
             else:
-                await ctx.send("{} Invalid option!\nOptions: `user`, `server`.".format(error_img))
+                await client.say("{} Invalid option!\nOptions: `user`, `server`.".format(error_img))
     else:
-        await ctx.send("{} This command can only be used by the bot's staff!".format(error_img))
+        await client.say("{} This command can only be used by the bot's staff!".format(error_img))
 
 # ad!clear <user/server> <id> <number>
 @client.command(pass_context=True)
@@ -1692,12 +1685,12 @@ async def clear(ctx, option = None, target = None, number = None):
     author = ctx.message.author
     if author.id in bot_mods or author.id in bot_admins:
         if option == None or target == None or number == None:
-            await ctx.send("{} Not all arguments were given!\nExamples:\n`*clear user 412201413335056386 1`.\n`*clear server 452865346081128448 3`.".format(error_img))
+            await client.say("{} Not all arguments were given!\nExamples:\n`*clear user 412201413335056386 1`.\n`*clear server 452865346081128448 3`.".format(error_img))
         else:
             try:
                 k = int(number)
                 if k < 0 and k > 3:
-                    await ctx.send("{} The number has to be 1, 2 or 3.")
+                    await client.say("{} The number has to be 1, 2 or 3.")
                 else:
                     if option == "user" or option == "server":
                         o = []
@@ -1706,21 +1699,21 @@ async def clear(ctx, option = None, target = None, number = None):
                             a = i.content.split(' | ')
                             if target == a[0] and option == a[3] and number == a[4]:
                                 await client.delete_message(i)
-                                await ctx.send("{} Warning cleared!".format(check_img))
+                                await client.say("{} Warning cleared!".format(check_img))
                                 o.append("+1")
                                 break
                             else:
                                 print("")
                         if len(o) == 0:
-                            await ctx.send("{} Warning not found!".format(error_img))
+                            await client.say("{} Warning not found!".format(error_img))
                         else:
                             print("")
                     else:
-                        await ctx.send("{} Invalid option!\nOptions: `user`, `server`.".format(error_img))
+                        await client.say("{} Invalid option!\nOptions: `user`, `server`.".format(error_img))
             except:
-                await ctx.send("{} That is not a number.".format(error_img))
+                await client.say("{} That is not a number.".format(error_img))
     else:
-        await ctx.send("{} This command can only be used by the bot's staff!".format(error_img))
+        await client.say("{} This command can only be used by the bot's staff!".format(error_img))
 
 # ad!remind
 @client.command(pass_context=True)
@@ -1728,7 +1721,7 @@ async def remind(ctx):
     author = ctx.message.author
     if author.id in bot_mods or author.id in bot_admins:
         o = []
-        await ctx.send("Sending reminders...<a:typing:393848431413559296>")
+        await client.say("Sending reminders...<a:typing:393848431413559296>")
         for c in log_channels_ids:
             try:
                 embed = discord.Embed(colour=0x8D50D9, description= "")
@@ -1742,7 +1735,7 @@ async def remind(ctx):
                 m += "\nServers on the ban list: `{}`".format(len(banned_servers))
                 m += "\n "
                 m += "\n`-` Reminder sent by: **{} ### {}**".format(author, author.id)
-                m += "\n`-` Position: {}/{}".format(len(o), len(client.guilds))
+                m += "\n`-` Position: {}/{}".format(len(o), len(client.servers))
                 embed.add_field(name="reminder", value=m)
                 try:
                     dest = client.get_channel(c)
@@ -1753,18 +1746,18 @@ async def remind(ctx):
                 o.append("+1")
             except:
                 print("pass 2")
-        await ctx.send("{} Finished!".format(check_img))
+        await client.say("{} Finished!".format(check_img))
     else:
-        await ctx.send("{} This command can only be used by the bot's staff!".format(error_img))
+        await client.say("{} This command can only be used by the bot's staff!".format(error_img))
 
 # ad!check <user/server> <id>
 @client.command(pass_context=True)
 async def check(ctx, option = None, target = None):
     author = ctx.message.author
-    server = ctx.message.guild
+    server = ctx.message.server
     if author.id in bot_mods or author.id in bot_admins:
         if option == None or target == None:
-            await ctx.send("{} Not all arguments were given!\nExamples:\n`*check user 412201413335056386`.\n`*check server 452865346081128448`.".format(error_img))
+            await client.say("{} Not all arguments were given!\nExamples:\n`*check user 412201413335056386`.\n`*check server 452865346081128448`.".format(error_img))
         else:
             o = []
             chnl2 = client.get_channel(warns_chnl)
@@ -1798,9 +1791,9 @@ async def check(ctx, option = None, target = None):
                             m += "\n-----Warned by: **{}**".format(b[1])
                             m += "\n-----Reason: **{}**".format(b[2])
                             m += "\n`===================================`"
-                    await ctx.send(m)
+                    await client.say(m)
                 except:
-                    await ctx.send("{} User not found!".format(error_img))
+                    await client.say("{} User not found!".format(error_img))
             elif option == "server":
                 try:
                     server = target
@@ -1831,13 +1824,13 @@ async def check(ctx, option = None, target = None):
                             m += "\n-----Warned by: **{}**".format(b[1])
                             m += "\n-----Reason: **{}**".format(b[2])
                             m += "\n`===================================`"
-                    await ctx.send(m)
+                    await client.say(m)
                 except:
-                    await ctx.send("{} Server not found!".format(error_img))
+                    await client.say("{} Server not found!".format(error_img))
             else:
-                await ctx.send("{} Invalid option!\nOptions: `user`, `server`.".format(error_img))
+                await client.say("{} Invalid option!\nOptions: `user`, `server`.".format(error_img))
     else:
-        await ctx.send("{} This command can only be used by the bot's staff!".format(error_img))
+        await client.say("{} This command can only be used by the bot's staff!".format(error_img))
 
 # ad!msg <user/server> <id> <message>
 @client.command(pass_context=True)
@@ -1846,50 +1839,50 @@ async def msg(ctx, option = None, target = None, *, args = None):
     chnl = client.get_channel(console_chnl)
     if author.id in bot_mods or author.id in bot_admins:
         if option == None or target == None or args == None:
-            await ctx.send("{} Not all arguments were given!\nExamples:\n`*msg user 331398432726056961 Hello! How are you?`.\n`*msg server 440108166789988353 Hello! How are you?`.".format(error_img))
+            await client.say("{} Not all arguments were given!\nExamples:\n`*msg user 331398432726056961 Hello! How are you?`.\n`*msg server 440108166789988353 Hello! How are you?`.".format(error_img))
         else:
             if option == "user" or option == "server":
                 if len(str(args)) > 1900:
-                    await ctx.send("{} The message cannot be longer than 1900 characters.".format(error_img))
+                    await client.say("{} The message cannot be longer than 1900 characters.".format(error_img))
                 else:
                     if option == "user":
                         find = []
-                        await ctx.send("Searching for user... <a:typing:393848431413559296>")
+                        await client.say("Searching for user... <a:typing:393848431413559296>")
                         try:
                             user = await client.get_user_info(target)
-                            await ctx.send("{} User found: {}#{}!\nSending message... <a:typing:393848431413559296>".format(check_img, user.name, user.discriminator))
+                            await client.say("{} User found: {}#{}!\nSending message... <a:typing:393848431413559296>".format(check_img, user.name, user.discriminator))
                             try:
                                 await client.send_message(user, "{}\n \n:label: Message sent by: {} ### {}\n`(Advertiser Bot Staff Member)`".format(args, author, author.id))
-                                await ctx.send("{} Message sent!".format(check_img))
+                                await client.say("{} Message sent!".format(check_img))
                                 msg = "```diff"
                                 msg += "\n- USER MESSAGE -"
                                 msg += "\n+ Author: {} ### {}".format(author, author.id)
-                                msg += "\n+ From: {} ### {}".format(ctx.message.guild.name, ctx.message.guild.id)
+                                msg += "\n+ From: {} ### {}".format(ctx.message.server.name, ctx.message.server.id)
                                 msg += "\n+ Target: {} ### {}".format(user, user.id)
                                 msg += "\n+ Message:"
                                 msg += "\n```"
                                 msg += "\n{}".format(args)
                                 await client.send_message(chnl, msg)
                             except:
-                                await ctx.send("{} Could not send the message to the user!\nEither the bot has no permission to send DMs to that user or they don't have a mutual server.".format(error_img))
+                                await client.say("{} Could not send the message to the user!\nEither the bot has no permission to send DMs to that user or they don't have a mutual server.".format(error_img))
                         except:
-                            await ctx.send("{} User not found!".format(error_img))
+                            await client.say("{} User not found!".format(error_img))
                     elif option == "server":
                         find = []
                         finish = []
-                        await ctx.send("Searching for server... <a:typing:393848431413559296>")
-                        for server in client.guilds:
+                        await client.say("Searching for server... <a:typing:393848431413559296>")
+                        for server in client.servers:
                             if server.id == target:
                                 try:
                                     if len(finish) == 0:
-                                        await ctx.send("{} Server found: {}!\nSending message... <a:typing:393848431413559296>".format(check_img, server.name))
+                                        await client.say("{} Server found: {}!\nSending message... <a:typing:393848431413559296>".format(check_img, server.name))
                                         find.append("+1")
                                         await client.send_message(server.owner, "{}\n \n:label: Message sent by: {} ### {}\n`(Advertiser Bot Staff Member)`".format(args, author, author.id))
-                                        await ctx.send("{} Message sent!".format(check_img))
+                                        await client.say("{} Message sent!".format(check_img))
                                         msg = "```diff"
                                         msg += "\n- SERVER MESSAGE -"
                                         msg += "\n+ Author: {} ### {}".format(author, author.id)
-                                        msg += "\n+ From: {} ### {}".format(ctx.message.guild.name, ctx.message.guild.id)
+                                        msg += "\n+ From: {} ### {}".format(ctx.message.server.name, ctx.message.server.id)
                                         msg += "\n+ Target: {} ### {}".format(server.name, server.id)
                                         msg += "\n+ Message:"
                                         msg += "\n```"
@@ -1903,15 +1896,15 @@ async def msg(ctx, option = None, target = None, *, args = None):
                             else:
                                 print("")
                         if len(finish) == 0:
-                            await ctx.send("{} Server not found!".format(error_img))
+                            await client.say("{} Server not found!".format(error_img))
                         else:
                             print("")
                     else:
-                        await ctx.send("{} Invalid option!\nOptions: `user`, `server`.".format(error_img))
+                        await client.say("{} Invalid option!\nOptions: `user`, `server`.".format(error_img))
             else:
-                await ctx.send("{} Invalid option!\nOptions: `user`, `server`.".format(error_img))
+                await client.say("{} Invalid option!\nOptions: `user`, `server`.".format(error_img))
     else:
-        await ctx.send("{} This command can only be used by the bot's staff!".format(error_img))
+        await client.say("{} This command can only be used by the bot's staff!".format(error_img))
 
 # ad!ban <user/server> <id> <reason>
 @client.command(pass_context=True)
@@ -1922,22 +1915,22 @@ async def ban(ctx, option = None, target = None, *, reason = None):
     chnl2 = client.get_channel(banned_servers_chnl)
     if author.id in bot_mods or author.id in bot_admins:
         if option == None or target == None or reason == None:
-            await ctx.send("{} Not all arguments were given!\nExamples:\n`*ban user 412201413335056386 Raiding servers`.\n`*ban server 452865346081128448 Not following the bot's TOS.`.".format(error_img))
+            await client.say("{} Not all arguments were given!\nExamples:\n`*ban user 412201413335056386 Raiding servers`.\n`*ban server 452865346081128448 Not following the bot's TOS.`.".format(error_img))
         else:
             if option == "user" or option == "server":
                 if len(str(reason)) > 1900:
-                    await ctx.send("{} The reason cannot be longer than 1900 characters.".format(error_img))
+                    await client.say("{} The reason cannot be longer than 1900 characters.".format(error_img))
                 elif option == "user":
                     if target in banned_users:
-                        await ctx.send("{} This user is already banned!".format(error_img))
+                        await client.say("{} This user is already banned!".format(error_img))
                     else:
                         await client.send_message(chnl, "{} | {}".format(target, reason))
                         banned_users.append(target)
-                        await ctx.send("{} **{}** has been added to the ban list!".format(check_img, target))
+                        await client.say("{} **{}** has been added to the ban list!".format(check_img, target))
                         log = "```diff"
                         log += "\n- USER BAN -"
                         log += "\n+ Author: {} ### {}".format(author, author.id)
-                        log += "\n+ From: {} ### {}".format(ctx.message.guild.name, ctx.message.guild.id)
+                        log += "\n+ From: {} ### {}".format(ctx.message.server.name, ctx.message.server.id)
                         log += "\n+ Target: {}".format(target)
                         log += "\n+ Reason:"
                         log += "\n```"
@@ -1945,26 +1938,26 @@ async def ban(ctx, option = None, target = None, *, reason = None):
                         await client.send_message(cnsl, log)
                 elif option == "server":
                     if target in banned_servers:
-                        await ctx.send("{} This server is already banned!".format(error_img))
+                        await client.say("{} This server is already banned!".format(error_img))
                     else:
                         await client.send_message(chnl2, "{} | {}".format(target, reason))
                         banned_servers.append(target)
-                        await ctx.send("{} **{}** has been added to the ban list!".format(check_img, target))
+                        await client.say("{} **{}** has been added to the ban list!".format(check_img, target))
                         log = "```diff"
                         log += "\n- SERVER BAN -"
                         log += "\n+ Author: {} ### {}".format(author, author.id)
-                        log += "\n+ From: {} ### {}".format(ctx.message.guild.name, ctx.message.guild.id)
+                        log += "\n+ From: {} ### {}".format(ctx.message.server.name, ctx.message.server.id)
                         log += "\n+ Target: {}".format(target)
                         log += "\n+ Reason:"
                         log += "\n```"
                         log += "\n{}".format(reason)
                         await client.send_message(cnsl, log)
                 else:
-                    await ctx.send("{} Invalid option!\nOptions: `user`, `server`.".format(error_img))
+                    await client.say("{} Invalid option!\nOptions: `user`, `server`.".format(error_img))
             else:
-                await ctx.send("{} Invalid option!\nOptions: `user`, `server`.".format(error_img))
+                await client.say("{} Invalid option!\nOptions: `user`, `server`.".format(error_img))
     else:
-        await ctx.send("{} This command can only be used by the bot's staff!".format(error_img))
+        await client.say("{} This command can only be used by the bot's staff!".format(error_img))
 
 # ad!unban <user/server> <id>
 @client.command(pass_context=True)
@@ -1975,7 +1968,7 @@ async def unban(ctx, option = None, target = None):
     cnsl = client.get_channel(console_chnl)
     if author.id in bot_mods or author.id in bot_admins:
         if option == None or target == None:
-            await ctx.send("{} Not all arguments were given!\nExamples:\n`*unban user 412201413335056386`.\n`*unban server 440108166789988353`.".format(error_img))
+            await client.say("{} Not all arguments were given!\nExamples:\n`*unban user 412201413335056386`.\n`*unban server 440108166789988353`.".format(error_img))
         else:
             if option == "user":
                 try:
@@ -1988,18 +1981,18 @@ async def unban(ctx, option = None, target = None):
                             print("")
                     try:
                         banned_users.remove(target)
-                        await ctx.send("{} The user has been unbanned!".format(check_img))
+                        await client.say("{} The user has been unbanned!".format(check_img))
                         msg = "```diff"
                         msg += "\n- USER UNBAN -"
                         msg += "\n+ Author: {} ### {}".format(author, author.id)
-                        msg += "\n+ From: {} ### {}".format(ctx.message.guild.name, ctx.message.guild.id)
+                        msg += "\n+ From: {} ### {}".format(ctx.message.server.name, ctx.message.server.id)
                         msg += "\n+ Target: {}".format(target)
                         msg += "\n```"
                         await client.send_message(cnsl, msg)
                     except:
-                        await ctx.send("{} That user is not banned!".format(error_img))
+                        await client.say("{} That user is not banned!".format(error_img))
                 except:
-                    await ctx.send("{} There was an error while trying to unban that user!".format(error_img))
+                    await client.say("{} There was an error while trying to unban that user!".format(error_img))
             elif option == "server":
                 try:
                     async for message in client.logs_from(chnl2, limit=limit):
@@ -2011,22 +2004,22 @@ async def unban(ctx, option = None, target = None):
                             print("")
                     try:
                         banned_servers.remove(target)
-                        await ctx.send("{} The server has been unbanned!".format(check_img))
+                        await client.say("{} The server has been unbanned!".format(check_img))
                         msg = "```diff"
                         msg += "\n- SERVER UNBAN -"
                         msg += "\n+ Author: {} ### {}".format(author, author.id)
-                        msg += "\n+ From: {} ### {}".format(ctx.message.guild.name, ctx.message.guild.id)
+                        msg += "\n+ From: {} ### {}".format(ctx.message.server.name, ctx.message.server.id)
                         msg += "\n+ Target: {}".format(target)
                         msg += "\n```"
                         await client.send_message(cnsl, msg)
                     except:
-                        await ctx.send("{} That server is not banned!".format(error_img))
+                        await client.say("{} That server is not banned!".format(error_img))
                 except:
-                    await ctx.send("{} There was an error while trying to unban that server!".format(error_img))
+                    await client.say("{} There was an error while trying to unban that server!".format(error_img))
             else:
-                await ctx.send("{} Invalid option!\nOptions: `user`, `server`.".format(error_img))
+                await client.say("{} Invalid option!\nOptions: `user`, `server`.".format(error_img))
     else:
-        await ctx.send("{} This command can only be used by the bot's staff!".format(error_img))
+        await client.say("{} This command can only be used by the bot's staff!".format(error_img))
 
 # ad!reset <server id>
 @client.command(pass_context=True)
@@ -2034,7 +2027,7 @@ async def reset(ctx, target = None):
     author = ctx.message.author
     if author.id in bot_mods or author.id in bot_admins:
         if target == None:
-            await ctx.send("{} No server ID given!".format(error_img))
+            await client.say("{} No server ID given!".format(error_img))
         else:
             ts = client.get_channel(toggled_servers_chnl)
             ss = client.get_channel(special_servers_chnl)
@@ -2047,19 +2040,19 @@ async def reset(ctx, target = None):
             cnsl = client.get_channel(console_chnl)
             try:
                 find = []
-                await ctx.send("Searching for server... <a:typing:393848431413559296>")
-                for server in client.guilds:
+                await client.say("Searching for server... <a:typing:393848431413559296>")
+                for server in client.servers:
                     if server.id == target:
                         find.append(server.id)
                         break
                     else:
                         print("")
                 if len(find) == 0:
-                    await ctx.send("{} Server not found!\nMaybe the bot is not in that server.".format(error_img))
+                    await client.say("{} Server not found!\nMaybe the bot is not in that server.".format(error_img))
                 else:
                     server = client.get_server(find[0])
-                    await ctx.send("{} Server found ( {} )!".format(check_img, server.name))
-                    await ctx.send("Resetting the server... <a:typing:393848431413559296>")
+                    await client.say("{} Server found ( {} )!".format(check_img, server.name))
+                    await client.say("Resetting the server... <a:typing:393848431413559296>")
                     try:
                         async for message in client.logs_from(ns, limit=limit):
                             if message.content == target:
@@ -2165,20 +2158,20 @@ async def reset(ctx, target = None):
                             special_servers.remove(target)
                         except:
                             print("")
-                        await ctx.send("{} All finished!\nAll the server's data should now be deleted!".format(check_img))
+                        await client.say("{} All finished!\nAll the server's data should now be deleted!".format(check_img))
                         o = "```diff"
                         o += "\n- RESET -"
                         o += "\n+ Author: {} ### {}".format(author, author.id)
-                        o += "\n+ From: {} ### {}".format(ctx.message.guild.name, ctx.message.guild.id)
+                        o += "\n+ From: {} ### {}".format(ctx.message.server.name, ctx.message.server.id)
                         o += "\n+ Target: {}".format(target)
                         o += "\n```"
                         await client.send_message(cnsl, o)
                     except:
-                        await ctx.send("{} Looks like there was an error!\nMake sure the bot has the required permissions in that server!\nFor any help contact a bot administrator.".format(error_img))
+                        await client.say("{} Looks like there was an error!\nMake sure the bot has the required permissions in that server!\nFor any help contact a bot administrator.".format(error_img))
             except:
-                await ctx.send("{} An unknown error has occured!".format(error_img))
+                await client.say("{} An unknown error has occured!".format(error_img))
     else:
-        await ctx.send("{} This command can only be used by the bot's staff!".format(error_img))
+        await client.say("{} This command can only be used by the bot's staff!".format(error_img))
 
 # ad!link <server id>
 @client.command(pass_context=True)
@@ -2186,29 +2179,29 @@ async def link(ctx, target = None):
     author = ctx.message.author
     if author.id in bot_mods or author.id in bot_admins:
         if target == None:
-            await ctx.send("{} No server ID given.".format(error_img))
+            await client.say("{} No server ID given.".format(error_img))
         else:
-            await ctx.send("Searching for server... <a:typing:393848431413559296>")
+            await client.say("Searching for server... <a:typing:393848431413559296>")
             a = []
-            for s in client.guilds:
+            for s in client.servers:
                 if s.id == target:
-                    await ctx.send("{} Server found ( {} )!".format(check_img, s.name))
+                    await client.say("{} Server found ( {} )!".format(check_img, s.name))
                     a.append("+1")
                     try:
                         invs = await client.invites_from(s)
-                        await ctx.send("The server's link is: {}".format(invs[0]))
+                        await client.say("The server's link is: {}".format(invs[0]))
                         break
                     except:
-                        await ctx.send("{} Unable to collect invites from that server.\nMake sure the bot has the required permissions in that server.".format(error_img))
+                        await client.say("{} Unable to collect invites from that server.\nMake sure the bot has the required permissions in that server.".format(error_img))
                         break
                 else:
                     print("")
             if len(a) == 0:
-                await ctx.send("{} Server not found.\nEither the bot is not in that server or it doesn't have the required permissions.".format(error_img))
+                await client.say("{} Server not found.\nEither the bot is not in that server or it doesn't have the required permissions.".format(error_img))
             else:
                 print("")
     else:
-        await ctx.send("{} This command can only be used by the bot's staff!".format(error_img))
+        await client.say("{} This command can only be used by the bot's staff!".format(error_img))
 
 ''' COMMANDS FOR BOT ADMINISTRATORS '''
 # ad!mod <add/del> <user>
@@ -2219,19 +2212,19 @@ async def mod(ctx, option = None, user: discord.User = None):
     bm = client.get_channel(bot_mods_chnl)
     if author.id in bot_admins:
         if option == None or user == None:
-            await ctx.send("{} Not all arguments were given!\nExamples:\n`*mod add @Looney`.\n`*mod del @Looney`.".format(error_img))
+            await client.say("{} Not all arguments were given!\nExamples:\n`*mod add @Looney`.\n`*mod del @Looney`.".format(error_img))
         else:
             if option == "add":
                 if user.id in bot_mods:
-                    await ctx.send("{} That user is already a bot moderator!".format(error_img))
+                    await client.say("{} That user is already a bot moderator!".format(error_img))
                 else:
                     await client.send_message(bm, "{}".format(user.id))
                     bot_mods.append(user.id)
-                    await ctx.send("{} Added {} to the bot moderators list.".format(check_img, user.name))
+                    await client.say("{} Added {} to the bot moderators list.".format(check_img, user.name))
                     msg = "```diff"
                     msg += "\n- ADD MOD -"
                     msg += "\n+ Author: {} ### {}".format(author, author.id)
-                    msg += "\n+ From: {} ### {}".format(ctx.message.guild.name, ctx.message.guild.id)
+                    msg += "\n+ From: {} ### {}".format(ctx.message.server.name, ctx.message.server.id)
                     msg += "\n+ Target: {} ### {}".format(user, user.id)
                     msg += "\n```"
                     await client.send_message(cnsl, msg)
@@ -2244,20 +2237,20 @@ async def mod(ctx, option = None, user: discord.User = None):
                         else:
                             print("")
                     bot_mods.remove(user.id)
-                    await ctx.send("{} Removed {} from the bot moderators list.".format(check_img, user.name))
+                    await client.say("{} Removed {} from the bot moderators list.".format(check_img, user.name))
                     msg = "```diff"
                     msg += "\n- DEL MOD -"
                     msg += "\n+ Author: {} ### {}".format(author, author.id)
-                    msg += "\n+ From: {} ### {}".format(ctx.message.guild.name, ctx.message.guild.id)
+                    msg += "\n+ From: {} ### {}".format(ctx.message.server.name, ctx.message.server.id)
                     msg += "\n+ Target: {} ### {}".format(user, user.id)
                     msg += "\n```"
                     await client.send_message(cnsl, msg)
                 else:
-                    await ctx.send("{} That user is not a bot moderator!".format(error_img))
+                    await client.say("{} That user is not a bot moderator!".format(error_img))
             else:
-                await ctx.send("{} Invalid option!\nOptions: `add`, `del`.")
+                await client.say("{} Invalid option!\nOptions: `add`, `del`.")
     else:
-        await ctx.send("{} This command can only be used by the bot's administrators.".format(error_img))
+        await client.say("{} This command can only be used by the bot's administrators.".format(error_img))
 
 
 # ad!announce <text>
@@ -2267,11 +2260,11 @@ async def announce(ctx, *, args = None):
     cnsl = client.get_channel(console_chnl)
     if author.id in bot_admins:
         if args == None:
-            await ctx.send("{} No text given!\nExample: `*announce New update!`.".format(error_img))
+            await client.say("{} No text given!\nExample: `*announce New update!`.".format(error_img))
         elif len(str(args)) > 1900:
-            await ctx.send("{} The text cannot be longer than 1900 characters.".format(error_img))
+            await client.say("{} The text cannot be longer than 1900 characters.".format(error_img))
         else:
-            await ctx.send("Sending announcement... <a:typing:393848431413559296>")
+            await client.say("Sending announcement... <a:typing:393848431413559296>")
             done = []
             fail = []
             pos = []
@@ -2297,25 +2290,25 @@ async def announce(ctx, *, args = None):
                 o = "```diff"
                 o += "\n- ANNOUNCEMENT -"
                 o += "\n+ Author: {} ### {}".format(author, author.id)
-                o += "\n+ From: {} ### {}".format(ctx.message.guild.name, ctx.message.guild.id)
+                o += "\n+ From: {} ### {}".format(ctx.message.server.name, ctx.message.server.id)
                 o += "\n+ Sent: {}".format(len(done))
                 o += "\n+ Failed: {}".format(len(fail))
                 o += "\n+ Text:"
                 o += "\n```"
                 o += "\n{}".format(args)
                 await client.send_message(cnsl, o)
-                await ctx.send("{} Finished!\nCheck the console for more information.".format(check_img))
+                await client.say("{} Finished!\nCheck the console for more information.".format(check_img))
             except:
-                await ctx.send("{} There was an error while trying to send the announcements!".format(error_img))
+                await client.say("{} There was an error while trying to send the announcements!".format(error_img))
     else:
-        await ctx.send("{} This command can only be used by the bot's administrators.".format(error_img))
+        await client.say("{} This command can only be used by the bot's administrators.".format(error_img))
 
 # ad!force
 @client.command(pass_context=True)
 async def force(ctx):
     author = ctx.message.author
     if author.id in bot_admins:
-        await ctx.send("Forcing advertisements... <a:typing:393848431413559296>")
+        await client.say("Forcing advertisements... <a:typing:393848431413559296>")
         try:
             total = []
             normal = []
@@ -2326,7 +2319,7 @@ async def force(ctx):
             ns = []
             a_s = []
             cs = []
-            for s in client.guilds:
+            for s in client.servers:
                 if s.id in banned_servers:
                     print("[FORCED AD] SERVER IS BANNED")
                 elif s.id in toggled_servers:
@@ -2345,7 +2338,7 @@ async def force(ctx):
             for c in channels_ids:
                 try:
                     c1 = client.get_channel(c)
-                    for srv in client.guilds:
+                    for srv in client.servers:
                         if srv in toggled_servers:
                             if c1 in srv.channels:
                                 print("[FORCED AD] CHANNEL IS TOGGLED")
@@ -2397,19 +2390,19 @@ async def force(ctx):
             log = "```diff"
             log += "\n- FORCED ADVERTISEMENT -"
             log += "\n+ Author: {} ### {}".format(author, author.id)
-            log += "\n+ From: {} ### {}".format(ctx.message.guild.name, ctx.message.guild.id)
+            log += "\n+ From: {} ### {}".format(ctx.message.server.name, ctx.message.server.id)
             log += "\n+ Total sent: {}".format(len(total))
             log += "\n+ Failed: {}".format(len(fail))
             log += "\n+ Normal sent: {}".format(len(normal))
             log += "\n+ Special sent: {}".format(len(special))
             log += "\n```"
             await client.send_message(cnsl, log)
-            await ctx.send("{} Finished!\nCheck the console for more information.".format(check_img))
+            await client.say("{} Finished!\nCheck the console for more information.".format(check_img))
             print("[FORCED AD] FINISHED")
         except:
             print("[FORCED AD ERRORS] GLOBAL")
     else:
-        await ctx.send("{} This command can only be used by the bot's administrators.".format(error_img))
+        await client.say("{} This command can only be used by the bot's administrators.".format(error_img))
 
 # ad!log <title> | <message>
 @client.command(pass_context=True)
@@ -2418,19 +2411,19 @@ async def log(ctx, *, args = None):
     cnsl = client.get_channel(console_chnl)
     if author.id in bot_admins:
         if args == None:
-            await ctx.send("{} Not all arguments were given!\nExample: `*log SMALL UPDATE | The bot just got updated.`.".format(error_img))
+            await client.say("{} Not all arguments were given!\nExample: `*log SMALL UPDATE | The bot just got updated.`.".format(error_img))
         elif len(str(args)) > 1500:
-            await ctx.send("{} The arguments cannot be longer than 1500 characters.".format(error_img))
+            await client.say("{} The arguments cannot be longer than 1500 characters.".format(error_img))
         else:
             try:
                 args.split('|')
             except:
-                await ctx.send("{} The command was used wrongly!\nExample: `*log SMALL UPDATE | The bot just got updated.`.".format(error_img))
+                await client.say("{} The command was used wrongly!\nExample: `*log SMALL UPDATE | The bot just got updated.`.".format(error_img))
             a = args.split('|')
             if len(a) != 2:
-                await ctx.send("{} The command was used wrongly!\nExample: `*log SMALL UPDATE | The bot just got updated.`.".format(error_img))
+                await client.say("{} The command was used wrongly!\nExample: `*log SMALL UPDATE | The bot just got updated.`.".format(error_img))
             else:
-                await ctx.send("Sending logs... <a:typing:393848431413559296>")
+                await client.say("Sending logs... <a:typing:393848431413559296>")
                 done = []
                 fail = []
                 pos = []
@@ -2453,18 +2446,18 @@ async def log(ctx, *, args = None):
                     o = "```diff"
                     o += "\n- FORCED LOG -"
                     o += "\n+ Author: {} ### {}".format(author, author.id)
-                    o += "\n+ From: {} ### {}".format(ctx.message.guild.name, ctx.message.guild.id)
+                    o += "\n+ From: {} ### {}".format(ctx.message.server.name, ctx.message.server.id)
                     o += "\n+ Sent: {}".format(len(done))
                     o += "\n+ Failed: {}".format(len(fail))
                     o += "\n+ Text:"
                     o += "\n```"
                     o += "\n{}".format(args)
                     await client.send_message(cnsl, o)
-                    await ctx.send("{} Finished!\nCheck the console for more information.".format(check_img))
+                    await client.say("{} Finished!\nCheck the console for more information.".format(check_img))
                 except:
-                    await ctx.send("{} There was an error while trying to send the logs!".format(error_img))
+                    await client.say("{} There was an error while trying to send the logs!".format(error_img))
     else:
-        await ctx.send("{} This command can only be used by the bot's administrators.".format(error_img))
+        await client.say("{} This command can only be used by the bot's administrators.".format(error_img))
 
 # ad!special <add/del> <server id>
 @client.command(pass_context=True)
@@ -2477,15 +2470,15 @@ async def special(ctx, option = None, target = None):
     c2 = client.get_channel(special_servers_msgs_chnl)
     if author.id in bot_admins:
         if option == None or target == None:
-            await ctx.send("{} Not all arguments were given!\nExamples:\n`*special add 440108166789988353`.\n`*special del 440108166789988353`.".format(error_img))
+            await client.say("{} Not all arguments were given!\nExamples:\n`*special add 440108166789988353`.\n`*special del 440108166789988353`.".format(error_img))
         elif option == "add":
             if target in special_servers:
-                await ctx.send("{} That server is already in the special list.".format(error_img))
+                await client.say("{} That server is already in the special list.".format(error_img))
             else:
                 try:
-                    await ctx.send("Searching for the server... <a:typing:393848431413559296>")
+                    await client.say("Searching for the server... <a:typing:393848431413559296>")
                     s = client.get_server(target)
-                    await ctx.send("{} Server found ( {} )!\nAdding the server to the special list... <a:typing:393848431413559296>".format(check_img, s.name))
+                    await client.say("{} Server found ( {} )!\nAdding the server to the special list... <a:typing:393848431413559296>".format(check_img, s.name))
                     try:
                         if s.id in normal_servers:
                             log = "```diff"
@@ -2544,32 +2537,32 @@ async def special(ctx, option = None, target = None):
                                 else:
                                     print("")
                             if len(b) == 0:
-                                await ctx.send(log)
-                                await ctx.send("{} The server should now have special advertisements!".format(check_img))
+                                await client.say(log)
+                                await client.say("{} The server should now have special advertisements!".format(check_img))
                             else:
-                                await ctx.send("{} The server should now have special advertisements!\nYou can find the log in <#{}>.".format(check_img, b[0]))
+                                await client.say("{} The server should now have special advertisements!\nYou can find the log in <#{}>.".format(check_img, b[0]))
                             o = "```diff"
                             o += "\n- ADD SPECIAL -"
                             o += "\n+ Author: {} ### {}".format(author, author.id)
-                            o += "\n+ From: {} ### {}".format(ctx.message.guild.name, ctx.message.guild.id)
+                            o += "\n+ From: {} ### {}".format(ctx.message.server.name, ctx.message.server.id)
                             o += "\n+ Target: {}".format(target)
                             o += "\n```"
                             await client.send_message(cnsl, o)
                         else:
-                            await ctx.send("{} That server isn't setup.\nTry again once the server has been setup.".format(error_img))
+                            await client.say("{} That server isn't setup.\nTry again once the server has been setup.".format(error_img))
                     except:
                         log += "\n- ^ Error!"
                         log += "\n--- CLOSING SPECIAL LOG ---"
                         log += "\n```"
-                        await ctx.send(log)
-                        await ctx.send("{} There was an error while trying to add the server to the special list.".format(error_img))
+                        await client.say(log)
+                        await client.say("{} There was an error while trying to add the server to the special list.".format(error_img))
                 except:
-                    await ctx.send("{} Server not found!\nMake sure the bot is in that server and it has the required permissions.".format(error_img))
+                    await client.say("{} Server not found!\nMake sure the bot is in that server and it has the required permissions.".format(error_img))
         elif option == "del":
             try:
-                await ctx.send("Searching for the server... <a:typing:393848431413559296>")
+                await client.say("Searching for the server... <a:typing:393848431413559296>")
                 s = client.get_server(target)
-                await ctx.send("{} Server found ( {} )!\nRemoving the server from the special list... <a:typing:393848431413559296>".format(check_img, s.name))
+                await client.say("{} Server found ( {} )!\nRemoving the server from the special list... <a:typing:393848431413559296>".format(check_img, s.name))
                 try:
                     if s.id in special_servers:
                         log = "```diff"
@@ -2623,31 +2616,31 @@ async def special(ctx, option = None, target = None):
                             else:
                                 print("")
                         if len(b) == 0:
-                            await ctx.send(log)
-                            await ctx.send("{} The server has been removed from the special list!".format(check_img))
+                            await client.say(log)
+                            await client.say("{} The server has been removed from the special list!".format(check_img))
                         else:
-                            await ctx.send("{} The server has been removed from the special list!\nYou can find the special log in <#{}>.".format(check_img, b[0]))
+                            await client.say("{} The server has been removed from the special list!\nYou can find the special log in <#{}>.".format(check_img, b[0]))
                         o = "```diff"
                         o += "\n- DEL SPECIAL -"
                         o += "\n+ Author: {} ### {}".format(author, author.id)
-                        o += "\n+ From: {} ### {}".format(ctx.message.guild.name, ctx.message.guild.id)
+                        o += "\n+ From: {} ### {}".format(ctx.message.server.name, ctx.message.server.id)
                         o += "\n+ Target: {}".format(target)
                         o += "\n```"
                         await client.send_message(cnsl, o)
                     else:
-                        await ctx.send("{} The server is not in the special list.".format(error_img))
+                        await client.say("{} The server is not in the special list.".format(error_img))
                 except:
                     log += "\n- ^ Error!"
                     log += "\n--- CLOSING SPECIAL LOG ---"
                     log += "\n```"
-                    await ctx.send(log)
-                    await ctx.send("{} There was an error while trying to remove the server from the special list.".format(error_img))
+                    await client.say(log)
+                    await client.say("{} There was an error while trying to remove the server from the special list.".format(error_img))
             except:
-                await ctx.send("{} Server not found!\nMake sure the bot is in that server and it has the required permissions.".format(error_img))
+                await client.say("{} Server not found!\nMake sure the bot is in that server and it has the required permissions.".format(error_img))
         else:
-            await ctx.send("{} Invalid option!\nOptions: `add`, `del`.".format(error_img))
+            await client.say("{} Invalid option!\nOptions: `add`, `del`.".format(error_img))
     else:
-        await ctx.send("{} This command can only be used by the bot's administrators.".format(error_img))
+        await client.say("{} This command can only be used by the bot's administrators.".format(error_img))
 
 # ad!say <text>
 @client.command(pass_context=True)
@@ -2655,14 +2648,14 @@ async def say(ctx, *, args = None):
     author = ctx.message.author
     if author.id in bot_admins:
         if args == None:
-            await ctx.send("{} No text given!".format(error_img))
+            await client.say("{} No text given!".format(error_img))
         else:
             if len(str(args)) > 1900:
-                await ctx.send("{} The text cannot be longer than 1900 characters.".format(error_img))
+                await client.say("{} The text cannot be longer than 1900 characters.".format(error_img))
             else:
-                await ctx.send("{}".format(args))
+                await client.say("{}".format(args))
     else:
-        await ctx.send("{} This command can only be used by the bot's administrators.".format(error_img))
+        await client.say("{} This command can only be used by the bot's administrators.".format(error_img))
 
 # ad!mb <run/clear> [reason]
 @client.command(pass_context=True)
@@ -2670,40 +2663,40 @@ async def mb(ctx, option = None, *, args = None):
     author = ctx.message.author
     if author.id in bot_admins:
         if option == None:
-            await ctx.send("{} No option given!\nOptions: `run`, `clear`.".format(error_img))
+            await client.say("{} No option given!\nOptions: `run`, `clear`.".format(error_img))
         else:
             chnl = client.get_channel(mass_ban_chnl)
             chnl2 = client.get_channel(banned_users_chnl)
             if option == "clear":
                 try:
                     deleted = await client.purge_from(chnl, limit=10000000000)
-                    await ctx.send("{} Cleared!".format(check_img))
+                    await client.say("{} Cleared!".format(check_img))
                 except:
-                    await ctx.send("{} Failed to clear!".format(check_img))
+                    await client.say("{} Failed to clear!".format(check_img))
             elif option == "run":
                 if args == None:
                     reason = "Not following the TOS."
                 else:
                     reason = args
                 o = []
-                await ctx.send("Saving... <a:typing:393848431413559296>")
+                await client.say("Saving... <a:typing:393848431413559296>")
                 async for i in client.logs_from(chnl, limit=limit):
                     a = i.content.split('\n')
                     for k in a:
                         o.append(k)
-                await ctx.send("{} Saved!\nBanning... <a:typing:393848431413559296>".format(check_img))
+                await client.say("{} Saved!\nBanning... <a:typing:393848431413559296>".format(check_img))
                 for i in o:
                     if i not in banned_users:
                         banned_users.append(i)
                         await client.send_message(chnl2, "{} | {}".format(i, reason))
                     else:
                         print("")
-                await ctx.send("{} Finished!".format(check_img))
+                await client.say("{} Finished!".format(check_img))
                 
             else:
-                await ctx.send("{} Invalid option!\nOptions: `run`, `clear`.".format(error_img))
+                await client.say("{} Invalid option!\nOptions: `run`, `clear`.".format(error_img))
     else:
-        await ctx.send("{} This command can only be used by the bot's administrators.".format(error_img))
+        await client.say("{} This command can only be used by the bot's administrators.".format(error_img))
 
 # ad!ms
 mss = []
@@ -2715,16 +2708,16 @@ async def ms(ctx):
     kk = []
     if author.id in bot_admins:
         if len(mss) == 0:
-            await ctx.send("Saving servers... <a:typing:393848431413559296>")
+            await client.say("Saving servers... <a:typing:393848431413559296>")
             mss.append("+1")
             u = []
-            for i in client.guilds:
+            for i in client.servers:
                 if i.id in ass:
                     print("[MS] Skipped {}".format(i.name))
                 else:
                     u.append(i.id)
-            await ctx.send("{} Saved!\nStarting mass scan... <a:typing:393848431413559296>\nThis will take awhile.".format(check_img))
-            h = await ctx.send("This message will be updated with more information until the mass scan finishes.")
+            await client.say("{} Saved!\nStarting mass scan... <a:typing:393848431413559296>\nThis will take awhile.".format(check_img))
+            h = await client.say("This message will be updated with more information until the mass scan finishes.")
             hh = []
             for i in u:
                 try:
@@ -2766,21 +2759,21 @@ async def ms(ctx):
                 m += "\n+ Current server: ........................................."
                 m += "\n```"
                 await client.edit_message(h, m)
-            await ctx.send("{} Finished!\nCheck the console for more information.".format(check_img))
+            await client.say("{} Finished!\nCheck the console for more information.".format(check_img))
             m = "```diff"
             m += "\n- MASS SCAN -"
             m += "\n+ Author: {} ### {}".format(author, author.id)
-            m += "\n+ From: {} ### {}".format(ctx.message.guild.name, ctx.message.guild.id)
-            m += "\n+ Servers passed: {}/{}".format(len(hh), len(client.guilds))
+            m += "\n+ From: {} ### {}".format(ctx.message.server.name, ctx.message.server.id)
+            m += "\n+ Servers passed: {}/{}".format(len(hh), len(client.servers))
             m += "\n+ Ban count: {}".format(len(banned_users))
             m += "\n+ Banned count: {}/{}".format(len(k), len(kk) * len(u))
             m += "\n```"
             await client.send_message(chnl, m)
             mss.clear()
         else:
-            await ctx.send("{} A mass scan is already running.".format(error_img))
+            await client.say("{} A mass scan is already running.".format(error_img))
     else:
-        await ctx.send("{} This command can only be used by the bot's administrators.".format(error_img))
+        await client.say("{} This command can only be used by the bot's administrators.".format(error_img))
 
 # TURNS THE BOT ON
 client.run("NTk5NjEwMTcyMTM4MDYxODM0.XSrKng.UbhdFVjbTjaeXRrh06sdOMJpLzI")
