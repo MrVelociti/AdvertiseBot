@@ -3,5 +3,5 @@ aiohttp
 websockets
 chardet
 asyncio
-requests==2.21.0
+requests==2.25.1
 
